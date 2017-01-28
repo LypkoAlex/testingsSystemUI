@@ -36,7 +36,21 @@ class SubjectStore {
         }
     }
 
+    @action createSubject = async (specialityId, title) => {
+        await post(`/specialities/${specialityId}/subjects`, { title });
+        await this.fetchSubjects();
+    }
 
+    @action updateSubject = async (id, data) => {
+        console.log(id, data);
+        await patch(`/subjects/${id}`, data);
+        await this.fetchSubjects();
+    }
+
+    @action deleteSubject = async (id) => {
+        await del(`/subjects/${id}`);
+        await this.fetchSubjects();
+    }
 
     @action setCurrentSubject = id => {
         this.currentSubject = this.subjects.find(subject => subject.id === id);

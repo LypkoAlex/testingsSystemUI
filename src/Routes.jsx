@@ -6,6 +6,7 @@ import MainLayout from './components/layouts/MainLayout'
 import AdminLayout from './components/layouts/AdminLayout'
 import TestingsPage from './components/pages/TestingsPage'
 import SpecialityPage from './components/pages/SpecialityPage'
+import SubjectPage from './components/pages/SubjectPage'
 import TestPage from './components/pages/TestPage'
 
 export default () => {
@@ -18,9 +19,9 @@ export default () => {
             <Route path='/admin' component={AdminLayout} >
                 {/* <Route path='/admin/questions'      component={QuestionsPage} />
                 <Route path='/admin/questions/edit' component={QuestionEditor}/>
-                <Route path='/admin/subject'        component={SubjectPage} />
                 <Route path='/admin/exams'          component={ExamsPage} /> */}
-                <Route path='/admin/spaciality'     component={SpecialityPage} />
+                <Route path='/admin/subjects'        component={SubjectPage} />
+                <Route path='/admin/spaciality'      component={SpecialityPage} />
             </Route>
         </Route>
     )

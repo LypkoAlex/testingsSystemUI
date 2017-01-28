@@ -16,6 +16,7 @@ class NavigationBar extends React.Component {
                         <div className={styles.menu_list}>
                             <ul className={styles.nav_list}>
                                 <NavItem to='/admin/spaciality'>Speciality</NavItem>
+                                <NavItem to='/admin/subjects'>Subjects</NavItem>
                                 <NavItem to='/admin'>Guests</NavItem>
                             </ul>
                         </div>

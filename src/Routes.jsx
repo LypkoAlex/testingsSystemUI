@@ -3,7 +3,9 @@ import {Route, IndexRoute} from 'react-router'
 
 import App from './components/App'
 import MainLayout from './components/layouts/MainLayout'
+import AdminLayout from './components/layouts/AdminLayout'
 import TestingsPage from './components/pages/TestingsPage'
+import SpecialityPage from './components/pages/SpecialityPage'
 import TestPage from './components/pages/TestPage'
 
 export default () => {
@@ -13,13 +15,13 @@ export default () => {
                 <Route path='/test' component={TestingsPage} />
                 <Route path='/test/:testId' component={TestPage} />
             </Route>
-            {/* <Route path='/admin' component={AdminLayout} >
-                <Route path='/admin/questions'      component={QuestionsPage} />
+            <Route path='/admin' component={AdminLayout} >
+                {/* <Route path='/admin/questions'      component={QuestionsPage} />
                 <Route path='/admin/questions/edit' component={QuestionEditor}/>
                 <Route path='/admin/subject'        component={SubjectPage} />
-                <Route path='/admin/exams'          component={ExamsPage} />
+                <Route path='/admin/exams'          component={ExamsPage} /> */}
                 <Route path='/admin/spaciality'     component={SpecialityPage} />
-            </Route> */}
+            </Route>
         </Route>
     )
 }

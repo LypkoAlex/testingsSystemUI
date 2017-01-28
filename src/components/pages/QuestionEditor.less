@@ -1,0 +1,61 @@
+.QuestionEditor {
+    display: flex;
+    width: 100%;
+    height: calc(~'100% - 60px');
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+    .content {
+        display: flex;
+        width: 760px;
+        height: 100%;
+        justify-content: flex-start;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .editBlock {
+            margin: 20 0 10;
+            display: inline-flex;
+            width: 100%;
+            justify-content: center;
+
+            .editButton {
+                margin-right: 10px;
+            }
+        }
+
+        .formsBlock {
+            display: flex;
+            width: 100%;
+            align-items: flex-start;
+            justify-content: center;
+
+            .formGroup {
+                display: inline-flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+                align-items: center;
+
+                .label {
+                    margin: 0;
+                }
+
+                .formControl {
+                    width: 80%;
+                }
+
+                .formCheck {
+                    margin: 0;
+
+                    .formCheckLabel {
+                        .formCheckInput {
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

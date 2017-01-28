@@ -22,6 +22,23 @@ class SpecialitiesStore {
         }
     }
 
+    @action updateSpeciality = async (id, data) => {
+        await patch(`/specialities/${id}`, data);
+        await this.fetchSpecialities();
+    }
+
+    @action deleteSpeciality = async (id) => {
+        await del(`/specialities/${id}`);
+        await this.fetchSpecialities();
+    }
+
+    @action createSpeciality = async (data) => {
+        console.log(data);
+        await post(`/specialities`, data);
+        await this.fetchSpecialities();
+    }
+
+
     // @action setCurrentQuestion = id => {
     //     this.currentQuestion = this.questions.find(question => question.id === id);
     // }

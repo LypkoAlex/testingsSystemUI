@@ -40,7 +40,6 @@ class ExamsStore {
         this.isLoading = true;
         try {
             const exam = await get(`/exams/${id}`);
-            console.log(exam);
             runInAction('Update state after fetchSubjects', () => {
                 this.exam = { ...exam };
                 this.isLoading = false;

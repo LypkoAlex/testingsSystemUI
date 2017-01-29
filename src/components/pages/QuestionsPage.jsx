@@ -1,11 +1,12 @@
 import React, { Component, PropTypes }          from 'react';
+import { Link } from 'react-router';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import { observable } from 'mobx';
 
-import QuestionsTable           from '../widgets/QuestionsPage/QuestionsTable';
+import QuestionsTable           from '../widgets/QuestionsList';
 
 import CSSModules               from 'react-css-modules';
-import styles                   from './QuestionsPage.less';
+import styles                   from './QuestionsPage.css';
 
 @inject('viewStore', 'questionsStore') @observer @CSSModules(styles)
 export default class QuestionsPage extends Component {
@@ -17,9 +18,8 @@ export default class QuestionsPage extends Component {
     @observable searchQuery = '';
 
     async componentWillMount() {
-        const { questionsStore } = this.props;
-
-        await questionsStore.fetchQuestions();
+        const { fetchQuestions } = this.props.questionsStore;
+        await fetchQuestions();
     }
 
     handleAddQuestion = () => {
@@ -52,20 +52,14 @@ export default class QuestionsPage extends Component {
                         >
                             Search
                         </div>
-                        <div
-                            className='btn btn-primary'
-                            styleName='searchBarButton'
-                            onTouchTap={this.handleAddQuestion}
-                        >
-                            Add
-                        </div>
+                        <Link to='/admin/questions/new'>Add</Link>
                     </div>
                     <div>
                         {
                             !isLoading
                             ? <QuestionsTable
                                 questions={questions}
-                                searchQuery={this.searchQuery}
+                                // searchQuery={this.searchQuery}
                             />
                             : 'Questions'
                         }

@@ -15,10 +15,11 @@ class NavigationBar extends React.Component {
                         </div>
                         <div className={styles.menu_list}>
                             <ul className={styles.nav_list}>
-                                <NavItem to='/admin/spaciality'>Speciality</NavItem>
-                                <NavItem to='/admin/exams'>Exams</NavItem>
-                                <NavItem to='/admin/subjects'>Subjects</NavItem>
-                                <NavItem to='/admin'>Guests</NavItem>
+                                <NavItem to='/admin/questions'>  Questions  </NavItem>
+                                <NavItem to='/admin/spaciality'> Speciality </NavItem>
+                                <NavItem to='/admin/exams'>      Exams      </NavItem>
+                                <NavItem to='/admin/subjects'>   Subjects   </NavItem>
+                                <NavItem to='/admin'>            Guests     </NavItem>
                             </ul>
                         </div>
                     </div>

@@ -25,7 +25,6 @@ export default class ExamsPage extends Component {
         await fetchSpecialities();
         this.examId = this.props.location.pathname.replace('/admin/exams/', '');
         await fetchExam(this.examId);
-        console.log('exam', exam);
     }
 
     handleAddSubject = () => {
@@ -56,8 +55,6 @@ export default class ExamsPage extends Component {
     }
 
     render() {
-        const { exam } = this.props.examsStore;
-        console.log(exam);
         return (
             <div styleName='ExamsPage'>
                 <select

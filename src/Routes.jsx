@@ -8,6 +8,8 @@ import TestingsPage from './components/pages/TestingsPage'
 import SpecialityPage from './components/pages/SpecialityPage'
 import SubjectPage from './components/pages/SubjectPage'
 import TestPage from './components/pages/TestPage'
+import ExamsPage from './components/pages/ExamsPage'
+import EditExamPage from './components/pages/EditExamPage'
 
 export default () => {
     return (
@@ -18,10 +20,11 @@ export default () => {
             </Route>
             <Route path='/admin' component={AdminLayout} >
                 {/* <Route path='/admin/questions'      component={QuestionsPage} />
-                <Route path='/admin/questions/edit' component={QuestionEditor}/>
-                <Route path='/admin/exams'          component={ExamsPage} /> */}
-                <Route path='/admin/subjects'        component={SubjectPage} />
-                <Route path='/admin/spaciality'      component={SpecialityPage} />
+                <Route path='/admin/questions/edit' component={QuestionEditor}/> */}
+                <Route path='/admin/exams'          component={ExamsPage} />
+                <Route path='/admin/exams/:examsId' component={EditExamPage} />
+                <Route path='/admin/subjects'       component={SubjectPage} />
+                <Route path='/admin/spaciality'     component={SpecialityPage} />
             </Route>
         </Route>
     )

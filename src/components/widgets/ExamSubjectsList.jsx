@@ -1,11 +1,9 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import { observable } from 'mobx';
+import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, Table, ButtonToolbar } from 'react-bootstrap';
 
-// import CSSModules from 'react-css-modules';
-// import styles     from './QuestionTable.less';
 @inject('specialitiesStore', 'subjectStore', 'examsStore')
-// @CSSModules(styles)
 export default @observer class QuestionsTable extends Component {
     static propTypes = {
         viewStore     : MobxTypes.observableObject,
@@ -16,14 +14,13 @@ export default @observer class QuestionsTable extends Component {
 
     @observable editIndex;
     @observable editedValue = {};
-    handleClickEdit = (index) => {
+    handleClickEdit = (index, val) => {
         this.editIndex = index;
+        this.editedValue[index] = val;
     }
 
     handleChange = (index, e) => {
         this.editedValue[index] = e.target.value;
-        console.log(this.editedValue);
-        this.forceUpdate(); // запитати як забрати !!!!!!!!!!!
     }
 
     handleClickSave = async (index, id) => {
@@ -41,13 +38,11 @@ export default @observer class QuestionsTable extends Component {
                 count : item.count
             };
         });
-        console.log(subjects);
         await updateExam(exam.id, { subjects });
         this.editIndex = -1;
     }
     handleClickDelete = async (id) => {
         const { exam, updateExam } = this.props.examsStore;
-        console.log('id', id);
         const subjects = exam.subjects.filter(item => item.subject._id !== id);
         await updateExam(exam.id, { subjects });
         console.log(exam.subjects);
@@ -67,36 +62,37 @@ export default @observer class QuestionsTable extends Component {
 
         return exam.subjects
             .map((subject, i) => {
-                console.log('SUBJECT', subject);
             return (
-                <tr key={subject.subject._id}>
+                <tr key={i}>
                     <th scope='row'>{i}</th>
                     <td>
                         { subject.subject.title } { subject.subject.questions.length }
                     </td>
                     <td>
-                        <input
+                        <FormControl
                             disabled     = { i === this.editIndex ? false : true}
                             onChange     = {this.handleChange.bind(this, i)}
                             type         = 'number'
                             defaultValue = {subject.count}
                         >
-                        </input>
+                        </FormControl>
                     </td>
                     <td>
-                        {
-                            i === this.editIndex
-                            ?
-                            <button
-                                onClick  = {this.handleClickSave.bind(this, i, subject.subject._id)}
-                                disabled = { this.editedValue[i] ? false : true}
-                            >
-                                Save
-                            </button>
-                            :
-                            <button onClick={this.handleClickEdit.bind(this, i)}>Edit</button>
-                        }
-                        <button onClick={this.handleClickDelete.bind(this, subject.subject._id)}>Delete</button>
+                        <ButtonToolbar>
+                            {
+                                i === this.editIndex
+                                ?
+                                <Button
+                                    onClick  = {this.handleClickSave.bind(this, i, subject.subject._id)}
+                                    disabled = { this.editedValue[i] ? false : true}
+                                >
+                                    Save
+                                </Button>
+                                :
+                                <Button onClick={this.handleClickEdit.bind(this, i, subject.count)}>Edit</Button>
+                            }
+                            <Button onClick={this.handleClickDelete.bind(this, subject.subject._id)}>Delete</Button>
+                        </ButtonToolbar>
                     </td>
                 </tr>
             );
@@ -106,21 +102,24 @@ export default @observer class QuestionsTable extends Component {
     render() {
         const { exam } = this.props.examsStore;
         return (
-            <table className='table'>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Subject Name</th>
-                        <th>Count</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {   exam.subjects ?
-                        this.renderExamSubjectList() :
-                        null
-                    }
-                </tbody>
-            </table>
+            <Col md={12}>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Subject Name</th>
+                            <th>Count</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {   exam.subjects ?
+                            this.renderExamSubjectList() :
+                            null
+                        }
+                    </tbody>
+                </Table>
+            </Col>
         );
     }
 }

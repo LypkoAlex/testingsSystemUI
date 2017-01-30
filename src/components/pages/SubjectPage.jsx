@@ -1,12 +1,11 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
+import {  Row, Button, FormControl, ControlLabel, FormGroup, Col } from 'react-bootstrap'
 import { observable } from 'mobx';
 
-import CSSModules   from 'react-css-modules';
-import styles       from './SubjectPage.css';
 import SubjectsList from '../widgets/SubjectsList.jsx'
 
-@inject('subjectStore', 'specialitiesStore') @observer @CSSModules(styles)
+@inject('subjectStore', 'specialitiesStore') @observer
 export default class SubjectPage extends Component {
     @observable subjectName ='';
     @observable filter;
@@ -57,28 +56,57 @@ export default class SubjectPage extends Component {
         const { subjects } = this.props.subjectStore;
         console.log('this.subjectName:=>', this.subjectName);
         return (
-            <div styleName='SubjectPage'>
-                <select
-                    onChange={this.handleChangeSpecialityFilter}
-                    >
-                        <option value=''>All</option>
-                        {this.renderSpecialitiesList()}
-                </select>
-                <input
-                    onChange={this.handleChangeSubjectName}
-                    value={this.subjectName}>
-                </input>
-                <select
-                    onChange={this.handleChangeSpeciality}
-                >
-                    {this.renderSpecialitiesList()}
-                </select>
-                <button onClick={this.handleCreateSubject}>Add</button>
-                <SubjectsList
-                    subjects = {subjects}
-                    filter   = {this.filter}
-                />
-            </div>
+            <Row>
+                <Row>
+                    <Col md={6}>
+                        <FormGroup controlId="formControlsSelect">
+                            <ControlLabel>Filter by speciality</ControlLabel>
+                            <FormControl
+                                componentClass="select"
+                                placeholder="select"
+                                onChange={this.handleChangeSpecialityFilter}
+                            >
+                                <option value=''>All</option>
+                                {this.renderSpecialitiesList()}
+                            </FormControl>
+                        </FormGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={6}>
+                        <FormGroup controlId="formControlsSelect">
+                            <FormControl
+                                componentClass="select"
+                                placeholder="select"
+                                onChange={this.handleChangeSpeciality}
+                                value={this.speciality}
+                            >
+                                <option value=''>Specialities</option>
+                                {this.renderSpecialitiesList()}
+                            </FormControl>
+                        </FormGroup>
+                    </Col>
+                    <Col md={3}>
+                        <FormGroup>
+                            <FormControl
+                                onChange={this.handleChangeSubjectName}
+                                value={this.subjectName}
+                                placeholder='Subject title'>
+                            </FormControl>
+                        </FormGroup>
+                    </Col>
+                    <Col md={3}>
+                        <Button
+                            onClick={this.handleCreateSubject}
+                            disabled={ !(this.subjectName && this.speciality) }
+                        >Add</Button>
+                    </Col>
+                    <SubjectsList
+                        subjects = {subjects}
+                        filter   = {this.filter}
+                    />
+                </Row>
+            </Row>
         );
     }
 }

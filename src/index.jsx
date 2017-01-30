@@ -6,7 +6,8 @@ import { Provider } from 'mobx-react';
 
 import routes from './Routes'
 import stores from './stores'
-
+// import 'bootstrap/dist/css/bootstrap.css';
+import 'bootswatch/paper/bootstrap.css';
 // const init GuestStore.fromJS(initialState.guests)
 
 

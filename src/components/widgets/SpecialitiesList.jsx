@@ -1,11 +1,8 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import { observable } from 'mobx';
-
-// import CSSModules from 'react-css-modules';
-// import styles     from './QuestionTable.less';
+import {  Table, Button, FormControl, ButtonToolbar } from 'react-bootstrap'
 @inject('specialitiesStore')
-// @CSSModules(styles)
 export default @observer class QuestionsTable extends Component {
     static propTypes = {
         viewStore     : MobxTypes.observableObject,
@@ -16,15 +13,13 @@ export default @observer class QuestionsTable extends Component {
 
     @observable editIndex = '';
     @observable editedValue = {};
-    handleClickEdit = (index) => {
+    handleClickEdit = (index, val) => {
         this.editIndex = index;
-        console.log(index);
+        this.editedValue[index] = val;
     }
 
     handleChange = (index, e) => {
         this.editedValue[index] = e.target.value;
-        console.log(this.editedValue);
-        this.forceUpdate(); // запитати як забрати !!!!!!!!!!!
     }
 
     handleClickSave = async (index, id) => {
@@ -49,26 +44,27 @@ export default @observer class QuestionsTable extends Component {
                 >
                     <th scope='row'>{i}</th>
                     <td>
-                        <input
+                        <FormControl
                             type='text'
                             disabled={ i === this.editIndex ? false : true}
                             defaultValue={speciality.title}
                             onChange = {this.handleChange.bind(this, i)}
                         >
-                        </input>
+                        </FormControl>
                     </td>
                     <td>
-                        {
-                            i === this.editIndex
-                            ?
-                            <button
-                                onClick={this.handleClickSave.bind(this, i, speciality.id)}
-                                disabled= { this.editedValue[i] ? false : true}
-                            >Save</button>
-                            :
-                            <button onClick={this.handleClickEdit.bind(this, i)}>Edit</button>
-                        }
-                        <button onClick={this.handleClickDelete.bind(this, speciality.id)}>Delete</button>
+                        <ButtonToolbar>
+                            {
+                                i === this.editIndex
+                                ?
+                                <Button
+                                    onClick={this.handleClickSave.bind(this, i, speciality.id)}
+                                >Save</Button>
+                                :
+                                <Button onClick={this.handleClickEdit.bind(this, i, speciality.title)}>Edit</Button>
+                            }
+                            <Button onClick={this.handleClickDelete.bind(this, speciality.id)}>Delete</Button>
+                        </ButtonToolbar>
                     </td>
                 </tr>
             );
@@ -79,17 +75,18 @@ export default @observer class QuestionsTable extends Component {
         const { questions } = this.props;
 
         return (
-            <table className='table'>
+            <Table responsive>
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Specialty Name</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     { this.renderSpecialitiesList() }
                 </tbody>
-            </table>
+            </Table>
         );
     }
 }

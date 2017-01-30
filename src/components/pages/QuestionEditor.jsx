@@ -2,10 +2,7 @@ import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import { observable } from 'mobx';
 
-import CSSModules from 'react-css-modules';
-import styles     from './QuestionEditor.css';
 @inject('questionsStore', 'subjectStore') @observer
-@CSSModules(styles)
 export default class QuestionEditor extends Component {
     @observable answers = [];
     @observable subject;

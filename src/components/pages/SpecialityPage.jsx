@@ -2,11 +2,10 @@ import React, { Component, PropTypes }              from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import { observable }                               from 'mobx';
 
-import CSSModules               from 'react-css-modules';
-import styles                   from './SpecialityPage.css';
+import { FormGroup, Col, FormControl, InputGroup, Button, Row } from 'react-bootstrap';
 
 import SpecialitiesList from '../widgets/SpecialitiesList.jsx'
-@inject('specialitiesStore') @observer @CSSModules(styles)
+@inject('specialitiesStore') @observer
 export default class SpecialityPage extends Component {
     static propTypes = {
         specialitiesStore: MobxTypes.observableObject
@@ -38,21 +37,30 @@ export default class SpecialityPage extends Component {
     render() {
         const { specialities } = this.props.specialitiesStore
         return (
-            <div styleName='SpecialityPage'>
-                <button onClick={this.handleAddSpeciality}>Add Speciality</button>
-                {
-                    this.adding ?
-                        <div>
-                            <input defaultValue={this.newSpeciality} onChange={this.handleChangeNew}></input>
-                            <button onClick={this.handleAddNew}>Add</button>
-                        </div>
-                    :
-                    null
-                }
-                <SpecialitiesList
-                    specialities = {specialities}
-                />
-            </div>
+            <Row>
+                <Col md={6} mdOffset={3}>
+                    <FormGroup>
+                        <InputGroup>
+                            <FormControl
+                                placeholder='New Speciality'
+                                type="text"
+                                value={this.newSpeciality} onChange={this.handleChangeNew}
+                            />
+                            <InputGroup.Button>
+                                <Button
+                                    onClick={this.handleAddNew}
+                                    disabled={!this.newSpeciality}
+                                >Add</Button>
+                            </InputGroup.Button>
+                        </InputGroup>
+                    </FormGroup>
+                </Col>
+                <Col md={8} mdOffset={2}>
+                    <SpecialitiesList
+                        specialities = {specialities}
+                    />
+                </Col>
+            </Row>
         );
     }
 }

@@ -5,10 +5,8 @@ import { observable } from 'mobx';
 
 import QuestionsTable           from '../widgets/QuestionsList';
 
-import CSSModules               from 'react-css-modules';
-import styles                   from './QuestionsPage.css';
 
-@inject('viewStore', 'questionsStore') @observer @CSSModules(styles)
+@inject('viewStore', 'questionsStore') @observer
 export default class QuestionsPage extends Component {
     static propTypes = {
         viewStore: MobxTypes.observableObject,
@@ -36,9 +34,9 @@ export default class QuestionsPage extends Component {
         const { questions } = this.props.questionsStore;
 
         return (
-            <div styleName='QuestionsPage'>
-                <div styleName='content'>
-                    <div styleName='searchBar'>
+            <div>
+                <div>
+                    <div>
                         <input
                             className='form-control'
                             type='text'
@@ -47,7 +45,7 @@ export default class QuestionsPage extends Component {
                         />
                         <div
                             className='btn btn-primary'
-                            styleName='searchBarButton'
+
                             onTouchTap={this.handleSearch}
                         >
                             Search

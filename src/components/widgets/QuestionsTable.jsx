@@ -2,10 +2,7 @@ import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import { observable } from 'mobx';
 
-import CSSModules from 'react-css-modules';
-import styles     from './QuestionTable.css';
-
-@inject('viewStore', 'questionsStore') @observer @CSSModules(styles)
+@inject('viewStore', 'questionsStore') @observer
 export default class QuestionsTable extends Component {
     static propTypes = {
         viewStore     : MobxTypes.observableObject,
@@ -40,7 +37,6 @@ export default class QuestionsTable extends Component {
                     <td>{question.subject}</td>
                     <td
                         onTouchTap={this.handleEditQuestion.bind(this, question.id)}
-                        styleName='edit'
                     >
                         Edit
                     </td>

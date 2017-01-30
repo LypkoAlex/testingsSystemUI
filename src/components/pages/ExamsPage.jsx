@@ -1,11 +1,10 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
+import {  Row, Button, FormControl, ControlLabel, FormGroup, Col } from 'react-bootstrap';
 import { observable } from 'mobx';
 
-import CSSModules               from 'react-css-modules';
-import styles                   from './ExamsPage.css';
 import ExamsList from '../widgets/ExamsList.jsx';
-@inject('examsStore', 'specialitiesStore') @observer @CSSModules(styles)
+@inject('examsStore', 'specialitiesStore') @observer
 export default class ExamsPage extends Component {
     @observable speciality;
     @observable examName;
@@ -47,21 +46,43 @@ export default class ExamsPage extends Component {
     render() {
         const { exams } = this.props.examsStore;
         return (
-            <div styleName='ExamsPage'>
-                <input
-                    onChange={this.handleChangeName}
-                    defaultValue={this.examName}>
-                </input>
-                <select
-                    onChange={this.handleChangeSpeciality}
-                >
-                    {this.renderSpecialitiesList()}
-                </select>
-                <button onClick={this.handleCreateExam}>Add</button>
-                <ExamsList
-                    exams = {exams}
-                />
-            </div>
+            <Row>
+                <Row>
+                    <Col md={6}>
+                        <FormGroup controlId="formControlsSelect">
+                            <FormControl
+                                componentClass="select"
+                                placeholder="select"
+                                onChange={this.handleChangeSpeciality}
+                                value={this.speciality}
+                            >
+                                <option value=''>Specialities</option>
+                                {this.renderSpecialitiesList()}
+                            </FormControl>
+                        </FormGroup>
+                    </Col>
+                    <Col md={3}>
+                        <FormGroup>
+                            <FormControl
+                                onChange={this.handleChangeName}
+                                value={this.examName}
+                                placeholder='Exam title'>
+                            </FormControl>
+                        </FormGroup>
+                    </Col>
+                    <Col md={3}>
+                        <Button
+                            onClick={this.handleCreateExam}
+                            disabled={ !(this.examName && this.speciality) }
+                        >Add</Button>
+                    </Col>
+                </Row>
+                <Row>
+                    <ExamsList
+                        exams = {exams}
+                    />
+                </Row>
+            </Row>
         );
     }
 }

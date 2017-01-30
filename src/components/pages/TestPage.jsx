@@ -2,10 +2,7 @@ import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import { observable } from 'mobx';
 
-import CSSModules from 'react-css-modules';
-import styles     from './TestPage.css';
-
-@inject('viewStore', 'testStore') @observer @CSSModules(styles)
+@inject('viewStore', 'testStore') @observer
 export default class TestPage extends Component {
     static propTypes = {
         viewStore : MobxTypes.observableObject,
@@ -76,7 +73,7 @@ export default class TestPage extends Component {
     render() {
         const { question } = this.props.testStore;
         return (
-            <div styleName='TestPage'>
+            <div>
                 {
                     question.code ?
                     <div>

@@ -1,11 +1,10 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
+import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, Jumbotron } from 'react-bootstrap';
 import { observable } from 'mobx';
 
-import CSSModules               from 'react-css-modules';
-import styles                   from './EditExamPage.css';
 import ExamSubjectsList from '../widgets/ExamSubjectsList.jsx';
-@inject('examsStore', 'specialitiesStore', 'subjectStore') @observer @CSSModules(styles)
+@inject('examsStore', 'specialitiesStore', 'subjectStore') @observer
 export default class ExamsPage extends Component {
     @observable subject;
     @observable count;
@@ -32,7 +31,8 @@ export default class ExamsPage extends Component {
         const subjects = JSON.parse(JSON.stringify(exam.subjects));
         subjects.push({ subject : this.subject, count : this.count });
         updateExam(this.examId, { subjects })
-        console.log(this.subject, this.count, this.examId);
+        this.subject = '';
+        this.count = '';
     }
 
     handleChangeSubject = (e) => {
@@ -56,21 +56,35 @@ export default class ExamsPage extends Component {
 
     render() {
         return (
-            <div styleName='ExamsPage'>
-                <select
-                    onChange={this.handleChangeSubject}
-                >
-                    {this.renderSubjectsList()}
-                </select>
-                <input
-                    type='number'
-                    onChange={this.handleChangeCount}
-                    defaultValue={this.count}
-                >
-                </input>
-                <button onClick={this.handleAddSubject}>Add</button>
-                <ExamSubjectsList/>
-            </div>
+            <Row>
+                <Row>
+                    <Col md={3}>
+                        <FormControl
+                            componentClass="select"
+                            onChange={this.handleChangeSubject}
+                            value={this.subject}
+                        >
+                            <option value=''>Subject</option>
+                            {this.renderSubjectsList()}
+                        </FormControl>
+                    </Col>
+                    <Col md={6}>
+                        <FormControl
+                            type='number'
+                            onChange={this.handleChangeCount}
+                            value={this.count}
+                            placeholder='Count'
+                        >
+                        </FormControl>
+                    </Col>
+                    <Col md={3}>
+                        <Button onClick={this.handleAddSubject} disabled={!(this.subject && this.count)}>Add</Button>
+                    </Col>
+                </Row>
+                <Row>
+                    <ExamSubjectsList/>
+                </Row>
+            </Row>
         );
     }
 }

@@ -1,32 +1,32 @@
 import React from 'react'
-import CSSModules from 'react-css-modules'
-
+import { Link } from 'react-router'
+import {
+    Navbar,
+    Nav,
+    NavDropdown,
+    MenuItem
+} from 'react-bootstrap'
 import NavItem from './NavigationItem'
-import styles from './NavigationBar.css'
+// import styles from './NavigationBar.css'
 
 class NavigationBar extends React.Component {
     render() {
         return (
-            <div>
-                <nav className={styles.headernav}>
-                    <div className={styles.container}>
-                        <div className={styles.header}>
-                            <a className={styles.brand} href="#">boilerplate</a>
-                        </div>
-                        <div className={styles.menu_list}>
-                            <ul className={styles.nav_list}>
-                                <NavItem to='/admin/questions'>  Questions  </NavItem>
-                                <NavItem to='/admin/spaciality'> Speciality </NavItem>
-                                <NavItem to='/admin/exams'>      Exams      </NavItem>
-                                <NavItem to='/admin/subjects'>   Subjects   </NavItem>
-                                <NavItem to='/admin'>            Guests     </NavItem>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </div>
+            <Navbar>
+                <Navbar.Header>
+                    <Navbar.Brand>
+                        <Link to='/'>TestSystem</Link>
+                    </Navbar.Brand>
+                </Navbar.Header>
+                <Nav>
+                    <NavItem to='/admin/questions'>  Questions </NavItem>
+                    <NavItem to='/admin/exams'>      Exams      </NavItem>
+                    <NavItem to='/admin/subjects'>   Subjects   </NavItem>
+                    <NavItem to='/admin/spaciality'> Speciality </NavItem>
+                </Nav>
+            </Navbar>
         )
     }
 }
 
-export default CSSModules(NavigationBar, styles, {allowMultiple: true})
+export default NavigationBar

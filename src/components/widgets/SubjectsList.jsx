@@ -1,11 +1,9 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
+import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, Table, ButtonToolbar } from 'react-bootstrap'
 import { observable } from 'mobx';
 
-// import CSSModules from 'react-css-modules';
-// import styles     from './QuestionTable.less';
 @inject('specialitiesStore', 'subjectStore')
-// @CSSModules(styles)
 export default @observer class QuestionsTable extends Component {
     static propTypes = {
         viewStore     : MobxTypes.observableObject,
@@ -64,37 +62,40 @@ export default @observer class QuestionsTable extends Component {
                 >
                     <th scope='row'>{i}</th>
                     <td>
-                        <input
+                        <FormControl
                             type='text'
                             disabled={ i === this.editIndex ? false : true}
                             defaultValue={subject.title}
                             onChange = {this.handleChange.bind(this, i)}
                         >
-                        </input>
+                        </FormControl>
                     </td>
                     <td>
-                        <select
+                        <FormControl
                             disabled={ i === this.editIndex ? false : true}
+                            componentClass='select'
                             onChange={this.handleChangeSpeciality.bind(this, i)}
                             defaultValue = {subject.speciality.id}
                         >
                             {this.renderSpecialitiesList()}
-                        </select>
+                        </FormControl>
                     </td>
                     <td>
-                        {
-                            i === this.editIndex
-                            ?
-                            <button
-                                onClick={this.handleClickSave.bind(this, i, subject.id)}
-                                disabled= { this.editedValue[i] || this.editedSpecialityValue[i] ? false : true}
-                            >
-                                Save
-                            </button>
-                            :
-                            <button onClick={this.handleClickEdit.bind(this, i)}>Edit</button>
-                        }
-                        <button onClick={this.handleClickDelete.bind(this, subject.id)}>Delete</button>
+                        <ButtonToolbar>
+                            {
+                                i === this.editIndex
+                                ?
+                                <Button
+                                    onClick={this.handleClickSave.bind(this, i, subject.id)}
+                                    disabled= { this.editedValue[i] || this.editedSpecialityValue[i] ? false : true}
+                                >
+                                    Save
+                                </Button>
+                                :
+                                <Button onClick={this.handleClickEdit.bind(this, i)}>Edit</Button>
+                            }
+                            <Button onClick={this.handleClickDelete.bind(this, subject.id)}>Delete</Button>
+                        </ButtonToolbar>
                     </td>
                 </tr>
             );
@@ -105,17 +106,21 @@ export default @observer class QuestionsTable extends Component {
         const { questions } = this.props;
 
         return (
-            <table className='table'>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Specialty Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    { this.renderSubjectList() }
-                </tbody>
-            </table>
+            <Col md={12}>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Subject Name</th>
+                            <th>Specialty</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { this.renderSubjectList() }
+                    </tbody>
+                </Table>
+            </Col>
         );
     }
 }

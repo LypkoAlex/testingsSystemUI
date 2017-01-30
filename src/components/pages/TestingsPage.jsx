@@ -2,8 +2,6 @@ import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import { browserHistory }              from 'react-router';
 import { observable }  from 'mobx';
-import CSSModules      from 'react-css-modules';
-import styles          from './TestingsPage.css';
 
 @inject('viewStore', 'specialitiesStore', 'examsStore', 'subjectStore', 'testStore') @observer
 
@@ -94,11 +92,9 @@ class TestingPage extends Component {
     }
 
     render() {
-        console.log('sdfsd', styles.form_control);
         return (
             <div className='row'>
                 <select
-                    styleName = {styles.form_control}
                     onChange={this.handleSpecialitySelect}
                 >
                     { this.renderSpecialitiesList() }
@@ -127,4 +123,4 @@ class TestingPage extends Component {
     }
 }
 
-export default CSSModules(TestingPage, styles, {allowMultiple: true})
+export default TestingPage

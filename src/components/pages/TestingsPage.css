@@ -1,3 +1,0 @@
-.form_control {
-    composes: input-group form-control from "bootstrap-css/lib/input-groups.css";
-}

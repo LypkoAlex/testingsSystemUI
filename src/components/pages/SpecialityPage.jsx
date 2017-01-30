@@ -29,12 +29,10 @@ export default class SpecialityPage extends Component {
         await createSpeciality({ title : this.newSpeciality });
         this.adding = false;
         this.newSpeciality = '';
-        this.forceUpdate();
     }
 
     handleAddSpeciality = () => {
         this.adding = !this.adding;
-        this.forceUpdate();
     }
 
     render() {

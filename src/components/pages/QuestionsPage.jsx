@@ -33,7 +33,7 @@ export default class QuestionsPage extends Component {
     }
 
     render() {
-        const { isLoading, questions } = this.props.questionsStore;
+        const { questions } = this.props.questionsStore;
 
         return (
             <div styleName='QuestionsPage'>
@@ -56,7 +56,7 @@ export default class QuestionsPage extends Component {
                     </div>
                     <div>
                         {
-                            !isLoading
+                            questions
                             ? <QuestionsTable
                                 questions={questions}
                                 // searchQuery={this.searchQuery}

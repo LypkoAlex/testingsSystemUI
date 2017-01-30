@@ -37,7 +37,7 @@ export default class QuestionsTable extends Component {
                 >
                     <th scope='row'>{i}</th>
                     <td>{question.text}</td>
-                    <td>{question.subject.title}</td>
+                    <td>{question.subject}</td>
                     <td
                         onTouchTap={this.handleEditQuestion.bind(this, question.id)}
                         styleName='edit'

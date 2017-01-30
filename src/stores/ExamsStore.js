@@ -36,15 +36,16 @@ class ExamsStore {
         }
     }
 
-    @action fetchExam = async (id) => {
+    @action fetchExam = async id => {
         this.isLoading = true;
         try {
             const exam = await get(`/exams/${id}`);
             runInAction('Update state after fetchSubjects', () => {
-                this.exam = { ...exam };
+                this.exam = exam;
                 this.isLoading = false;
             });
         } catch (error) {
+            this.isLoading = false;
             console.log(error);
         }
     }

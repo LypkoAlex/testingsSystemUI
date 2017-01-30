@@ -5,7 +5,7 @@ import { observable } from 'mobx';
 import CSSModules from 'react-css-modules';
 import styles     from './QuestionEditor.css';
 @inject('questionsStore', 'subjectStore') @observer
- @CSSModules(styles)
+@CSSModules(styles)
 export default class QuestionEditor extends Component {
     @observable answers = [];
     @observable subject;
@@ -19,13 +19,10 @@ export default class QuestionEditor extends Component {
 
     async componentWillMount() {
         const { fetchSubjects } = this.props.subjectStore;
-        const { fetchQuestions, fetchQuestion, questions} = this.props.questionsStore;
+        const { fetchQuestions, fetchQuestion, question} = this.props.questionsStore;
         this.questionId = this.props.location.pathname.replace('/admin/questions/', '');
-        await fetchQuestions();
         await fetchSubjects();
-        if (this.questionId !== 'new') {
-            this.question = questions.filter(item => item.id === this.questionId)[0];
-        }
+        await fetchQuestion(this.questionId);
     }
 
     handleChangeText = async (e) => {
@@ -63,12 +60,15 @@ export default class QuestionEditor extends Component {
     }
 
     renderAnswersList = (count) => {
+        const { question } = this.props.questionsStore;
+        console.log('OBJEsdadf', question);
         const arr = [];
         for(let i = 0; i < count; i++) {
             arr.push(
                 <div key={i}>
                     <textarea rows="1" cols="45" placeholder='answer' name="text"
                         onChange = {this.handleChangeAnswer.bind(this, i)}
+                        value={question.answers ? question.answers[i] : ''}
                     ></textarea>
                     <input type="radio" name="answers" value={i} onChange={this.handleChangeAnswerIndex}/>
                 </div>

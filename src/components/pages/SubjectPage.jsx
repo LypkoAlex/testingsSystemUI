@@ -8,7 +8,7 @@ import SubjectsList from '../widgets/SubjectsList.jsx'
 
 @inject('subjectStore', 'specialitiesStore') @observer @CSSModules(styles)
 export default class SubjectPage extends Component {
-    @observable subjectName;
+    @observable subjectName ='';
     @observable filter;
     @observable speciality;
     static propTypes = {
@@ -35,13 +35,11 @@ export default class SubjectPage extends Component {
         await createSubject(this.speciality, this.subjectName);
         this.speciality  = '';
         this.subjectName = '';
-        this.forceUpdate();
     }
 
     handleChangeSpecialityFilter = (e) => {
         console.log(e.target.value);
         this.filter = e.target.value;
-        this.forceUpdate();
     }
 
     renderSpecialitiesList = () => {
@@ -57,6 +55,7 @@ export default class SubjectPage extends Component {
 
     render() {
         const { subjects } = this.props.subjectStore;
+        console.log('this.subjectName:=>', this.subjectName);
         return (
             <div styleName='SubjectPage'>
                 <select
@@ -67,7 +66,7 @@ export default class SubjectPage extends Component {
                 </select>
                 <input
                     onChange={this.handleChangeSubjectName}
-                    defaultValue={this.subjectName}>
+                    value={this.subjectName}>
                 </input>
                 <select
                     onChange={this.handleChangeSpeciality}

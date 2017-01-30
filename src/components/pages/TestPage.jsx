@@ -20,7 +20,7 @@ export default class TestPage extends Component {
     }
 
     handleSaveTest = async () => {
-        
+
     }
 
     handleNextQuestion = async () => {
@@ -30,7 +30,6 @@ export default class TestPage extends Component {
             answer : this.answer
         }, this.testId);
         await getQuestion(this.testId);
-        this.forceUpdate();
     }
 
     handleSelectAnswer = async (index) => {
@@ -42,7 +41,6 @@ export default class TestPage extends Component {
                 answer : index
             }, this.testId);
             await getQuestion(this.testId);
-            this.forceUpdate();
         }
     }
 

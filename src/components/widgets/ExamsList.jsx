@@ -17,13 +17,13 @@ export default @observer class QuestionsTable extends Component {
     @observable editIndex = '';
     @observable editedValue = {};
     @observable editedSpecialityValue = {};
-    handleClickEdit = (index) => {
+    handleClickEdit = (index, val) => {
         this.editIndex = index;
+        this.editedValue[index] = val;
     }
 
     handleChange = (index, e) => {
         this.editedValue[index] = e.target.value;
-        this.forceUpdate(); // запитати як забрати !!!!!!!!!!!
     }
 
     handleClickSave = async (index, id) => {
@@ -58,7 +58,6 @@ export default @observer class QuestionsTable extends Component {
 
     renderExamsList() {
         const { exams } = this.props;
-
         return exams
             .map((exam, i) => {
                 console.log('exam', exam);
@@ -90,13 +89,12 @@ export default @observer class QuestionsTable extends Component {
                             i === this.editIndex
                             ?
                             <button
-                                onClick={this.handleClickSave.bind(this, i, exam.id)}
-                                disabled= { this.editedValue[i] || this.editedSpecialityValue[i] ? false : true}
+                                onClick  = {this.handleClickSave.bind(this, i, exam.id)}
                             >
                                 Save
                             </button>
                             :
-                            <button onClick={this.handleClickEdit.bind(this, i)}>Edit</button>
+                            <button onClick={this.handleClickEdit.bind(this, i, exam.title)}>Edit</button>
                         }
                         <button onClick={this.handleAddSubject.bind(this, exam.id)}>Add Subject</button>
                         <button onClick={this.handleClickDelete.bind(this, exam.id)}>Delete</button>
@@ -108,7 +106,7 @@ export default @observer class QuestionsTable extends Component {
 
     render() {
         const { questions } = this.props;
-
+        console.log(this.editedValue);
         return (
             <table className='table'>
                 <thead>

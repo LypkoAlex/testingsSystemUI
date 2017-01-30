@@ -3,7 +3,7 @@ import { get, post, patch, del } from '../api.js';
 
 class QuestionsStore {
     @observable questions = [];
-    @observable question = {};
+    @observable question = asStructure({});
     @observable isLoading = true;
 
     @action fetchQuestions = async () => {
@@ -22,11 +22,13 @@ class QuestionsStore {
     }
 
     // Запитати Рому
-    // @action fetchQuestion = async (id) => {
-    //     const question = await get(`/questions/${id}`);
-    //     console.log(question);
-    //     this.question = { ...question };
-    // }
+    @action fetchQuestion = async id => {
+        const question = await get(`/questions/${id}`);
+        console.log('QUESTION STORE', question);
+        runInAction('Update state after fetchQuestion', () => {
+            this.question = question;
+        });
+    }
 
     @action createQuestion = async (subjectId, data) => {
         try {

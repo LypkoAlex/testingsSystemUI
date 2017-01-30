@@ -17,7 +17,7 @@ class TestStore {
     @action getQuestion = async (testId) => {
         try {
             const question = await get(`/tests/${testId}/nextQuestion`);
-
+            console.log('QUESTION', question);
             this.question = { ...question };
         } catch (error) {
             console.log(error);

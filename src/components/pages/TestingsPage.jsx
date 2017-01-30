@@ -24,11 +24,17 @@ class TestingPage extends Component {
 
     handleStart = async () => {
         const { testStore } = this.props;
+        console.log({
+            speciality : this.specialityId,
+            subject    : this.subjectId,
+            type       : this.type
+        });
         const test = await testStore.createTest(this.examId, {
             speciality : this.specialityId,
             subject    : this.subjectId,
             type       : this.type
         });
+        console.log('test', test);
         browserHistory.push(`/test/${test.id}`)
     }
 
@@ -48,6 +54,10 @@ class TestingPage extends Component {
 
     handleExamsSelect = async (e) => {
         this.examId = e.target.value;
+    }
+
+    handleSubjectSelect = async (e) => {
+        this.subjectId = e.target.value;
     }
 
     renderSpecialitiesList = () => {
@@ -105,7 +115,7 @@ class TestingPage extends Component {
                     <option value='TESTING'>TESTING</option>
                 </select>
                 <select
-                    onChange={this.handleTypeSelect}
+                    onChange={this.handleSubjectSelect}
                 >
                     { this.renderSubjectsList() }
                 </select>

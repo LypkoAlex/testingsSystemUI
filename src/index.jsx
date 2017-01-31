@@ -8,6 +8,7 @@ import routes from './Routes'
 import stores from './stores'
 // import 'bootstrap/dist/css/bootstrap.css';
 import 'bootswatch/paper/bootstrap.css';
+import './style.css';
 // const init GuestStore.fromJS(initialState.guests)
 
 

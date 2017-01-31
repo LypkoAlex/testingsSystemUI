@@ -32,7 +32,7 @@ class QuestionsStore {
 
     @action createQuestion = async (subjectId, data) => {
         try {
-            console.log(data);
+            console.log('data!!!!', data);
             await post(`/subjects/${subjectId}/questions`, data);
             // await this.fetchQuestions();
         } catch (error) {
@@ -40,10 +40,19 @@ class QuestionsStore {
         }
     }
 
-    @action updateQuestion = async({ data, id }) => {
+    @action updateQuestion = async(id, data) => {
         try {
             await patch(`/questions/${id}`, data);
-            await this.fetchQuestions();
+            await this.fetchQuestion(id);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    @action deleteQuestion = async(id) => {
+        try {
+            await del(`/questions/${id}`);
+            await this.fetchQuestions(id);
         } catch (error) {
             console.log(error);
         }

@@ -1,69 +1,86 @@
 import React, { Component, PropTypes }          from 'react';
 import { Link } from 'react-router';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
+import {  Row, Button, FormControl, ControlLabel, FormGroup, Col } from 'react-bootstrap';
 import { observable } from 'mobx';
 
 import QuestionsTable           from '../widgets/QuestionsList';
 
 
-@inject('viewStore', 'questionsStore') @observer
+@inject('subjectStore', 'questionsStore') @observer
 export default class QuestionsPage extends Component {
     static propTypes = {
-        viewStore: MobxTypes.observableObject,
+        subjectStore: MobxTypes.observableObject,
         questionsStore: MobxTypes.observableObject
     };
 
     @observable searchQuery = '';
+    @observable selectedSubject = '';
 
     async componentWillMount() {
         const { fetchQuestions } = this.props.questionsStore;
+        const { fetchSubjects  } = this.props.subjectStore;
         await fetchQuestions();
+        await fetchSubjects();
     }
 
-    handleAddQuestion = () => {
-        const { viewStore } = this.props;
-
-        viewStore.setCurrentPage('edit');
+    handleSearch = (e) => {
+        this.searchQuery = e.target.value;
     }
 
-    handleSearch = (e, value) => {
-        this.searchQuery = value;
+    handleChangeSubject = (e) => {
+        this.selectedSubject = e.target.value;
+    }
+
+    renderSubjectsList = () => {
+        const { subjects } = this.props.subjectStore;
+        if(subjects) {
+            return subjects.map( subject => {
+                return (
+                    <option key={subject.id} value={subject.id}>{subject.title} {subject.questions.length}</option>
+                );
+            });
+        }
     }
 
     render() {
         const { questions } = this.props.questionsStore;
 
         return (
-            <div>
-                <div>
-                    <div>
-                        <input
-                            className='form-control'
+            <Row>
+                <Row>
+                    <Col md={4}>
+                        <FormControl
                             type='text'
                             value={this.searchQuery}
                             onChange={this.handleSearch}
+                            placeholder='Search'
                         />
-                        <div
-                            className='btn btn-primary'
-
-                            onTouchTap={this.handleSearch}
+                    </Col>
+                    <Col md={4}>
+                        <FormControl
+                            componentClass="select"
+                            onChange={this.handleChangeSubject}
+                            value={this.selectedSubject}
                         >
-                            Search
-                        </div>
-                        <Link to='/admin/questions/new'>Add</Link>
-                    </div>
-                    <div>
-                        {
-                            questions
-                            ? <QuestionsTable
-                                questions={questions}
-                                // searchQuery={this.searchQuery}
-                            />
-                            : 'Questions'
-                        }
-                    </div>
-                </div>
-            </div>
+                            <option value=''>Subject</option>
+                            {this.renderSubjectsList()}
+                        </FormControl>
+                    </Col>
+                    <Col md={4}>
+                        <Link className='btn btn-default pull-right' to='/admin/questions/new'>Add New Question</Link>
+                    </Col>
+                </Row>
+                    {
+                        questions
+                        ? <QuestionsTable
+                            questions   = {questions}
+                            searchQuery = {this.searchQuery}
+                            subject     = {this.selectedSubject}
+                        />
+                        : 'Questions'
+                    }
+            </Row>
         );
     }
 }

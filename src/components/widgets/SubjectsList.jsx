@@ -15,13 +15,13 @@ export default @observer class QuestionsTable extends Component {
     @observable editIndex = '';
     @observable editedValue = {};
     @observable editedSpecialityValue = {};
-    handleClickEdit = (index) => {
+    handleClickEdit = (index, val) => {
         this.editIndex = index;
+        this.editedValue[index] = val;
     }
 
     handleChange = (index, e) => {
         this.editedValue[index] = e.target.value;
-        this.forceUpdate(); // запитати як забрати !!!!!!!!!!!
     }
 
     handleClickSave = async (index, id) => {
@@ -92,7 +92,7 @@ export default @observer class QuestionsTable extends Component {
                                     Save
                                 </Button>
                                 :
-                                <Button onClick={this.handleClickEdit.bind(this, i)}>Edit</Button>
+                                <Button onClick={this.handleClickEdit.bind(this, i, subject.title)}>Edit</Button>
                             }
                             <Button onClick={this.handleClickDelete.bind(this, subject.id)}>Delete</Button>
                         </ButtonToolbar>

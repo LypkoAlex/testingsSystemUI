@@ -4,7 +4,7 @@ import { get, post, patch, del } from '../api.js';
 class TestStore {
     @observable currentSubject = undefined;
     @observable isLoading = true;
-    // @observable exams = [];
+    @observable correct = -1;
     @observable question = {};
     @action createTest = async (examId, data) => {
         try {
@@ -18,7 +18,10 @@ class TestStore {
         try {
             const question = await get(`/tests/${testId}/nextQuestion`);
             console.log('QUESTION', question);
-            this.question = { ...question };
+            runInAction('Get question', () => {
+                this.correct = -1;
+                this.question = { ...question };
+            });
         } catch (error) {
             console.log(error);
         }
@@ -28,7 +31,9 @@ class TestStore {
         console.log('data', data);
         try {
             const answer = await post(`/tests/${testId}/checkAnswer`, data);
-            console.log('answer', answer);
+            runInAction('Check answer', () => {
+                this.correct = answer.correct;
+            });
         } catch (error) {
             console.log(error);
         }

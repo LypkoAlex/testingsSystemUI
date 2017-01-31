@@ -1,25 +1,28 @@
-import React from 'react'
-
-import NavItem from './NavigationItem'
+import React from 'react';
+import { Link } from 'react-router';
+import {
+    Navbar,
+    Nav,
+    NavDropdown,
+    MenuItem
+} from 'react-bootstrap';
+import NavItem from './NavigationItem';
 
 class NavigationBar extends React.Component {
     render() {
         return (
-            <div>
-                <nav>
-                    <div>
-                        <div>
-                            <a href="#">boilerplate</a>
-                        </div>
-                        <div>
-                            <ul>
-                                <NavItem to='/test' index={true} >Testing</NavItem>
-                                <NavItem to='/'>Guests</NavItem>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </div>
+            <Navbar>
+                <Navbar.Header>
+                    <Navbar.Brand>
+                        <Link to='/'>TestSystem</Link>
+                    </Navbar.Brand>
+                </Navbar.Header>
+                <Nav>
+                    <NavItem to='/test'>Testing</NavItem>
+                    <NavItem to='/feedback'>Feedback</NavItem>
+                    <NavItem to='/restore'>Restore</NavItem>
+                </Nav>
+            </Navbar>
         )
     }
 }

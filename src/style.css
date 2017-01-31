@@ -1,8 +1,30 @@
 .row {
     margin-right: 0;
 }
-.col-centered{
+.col-centered {
     float: none;
     margin: 0 auto;
     display: table;
+}
+.correct {
+    background-color : rgba(76, 175, 80, 0.26);
+}
+
+.feedbackTextArea {
+    float: none;
+    margin: 0 auto;
+    margin-top: 25px;
+}
+.alignCenter {
+    text-align: center;
+}
+
+.listItems {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-top: 25px;
+}
+
+.questionForm {
+    margin-top: 25px;
 }

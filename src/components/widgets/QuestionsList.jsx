@@ -1,13 +1,12 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
-import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, Table, ButtonToolbar } from 'react-bootstrap';
+import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, Table, ButtonToolbar, Panel } from 'react-bootstrap';
 import { observable } from 'mobx';
 import { browserHistory } from 'react-router';
 
 @inject('specialitiesStore', 'questionsStore')
 export default @observer class QuestionsTable extends Component {
     static propTypes = {
-        viewStore     : MobxTypes.observableObject,
         questionsStore: MobxTypes.observableObject,
         searchQuery   : PropTypes.string,
         questions     : PropTypes.object
@@ -53,19 +52,23 @@ export default @observer class QuestionsTable extends Component {
 
     render() {
         return (
-            <Table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Text</th>
-                        <th>Subject</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    { this.renderQuestionsList() }
-                </tbody>
-            </Table>
+            <Row  className='listItems'>
+                <Panel>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Text</th>
+                                <th>Subject</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { this.renderQuestionsList() }
+                        </tbody>
+                    </Table>
+                </Panel>
+            </Row>
         );
     }
 }

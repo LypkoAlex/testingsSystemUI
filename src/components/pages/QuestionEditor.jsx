@@ -1,9 +1,9 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
-import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, InputGroup, ButtonToolbar } from 'react-bootstrap';
+import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, InputGroup, ButtonToolbar, Panel } from 'react-bootstrap';
 import { observable } from 'mobx';
+import { Link } from 'react-router';
 import { browserHistory } from 'react-router'
-import uuid from 'uuid';
 
 @inject('questionsStore', 'subjectStore') @observer
 export default class QuestionEditor extends Component {
@@ -54,6 +54,7 @@ export default class QuestionEditor extends Component {
         this.answers = {};
         this.text = '';
         this.answerIndex = -1;
+        if(isNew) browserHistory.push('/admin/questions/new');
         browserHistory.push('/admin/questions');
     }
 
@@ -85,7 +86,7 @@ export default class QuestionEditor extends Component {
         const arr = [];
         for(let i = 0; i < count; i++) {
             arr.push(
-                <FormGroup key={i+this.questionId}>
+                <FormGroup key={i+this.questionId} className='questionForm'>
                     <InputGroup>
                         <FormControl
                             type="text"
@@ -120,10 +121,14 @@ export default class QuestionEditor extends Component {
                             <Button
                                 disabled={ this.questionId === 'new' ? !(this.subject && this.answers && this.text && this.answerIndex) : false }
                                 onClick={this.handleClickSave}>Save</Button>
-                            <Button onClick={this.handleClickSave}>Save and New</Button>
-                            <Button onClick={this.handleClickSave}>Close</Button>
+                            <Button
+                                onClick={this.handleClickSave.bind(this, true)}
+                                disabled={ this.questionId === 'new' ? !(this.subject && this.answers && this.text && this.answerIndex) : false }
+                            >Save and New</Button>
+                            <Link className='btn btn-default pull-right' to='/admin/questions/'>Close</Link>
                         </ButtonToolbar>
-                        <Col md={6} mdOffset={3}>
+                        <Col md={6} mdOffset={3} className='questionForm'>
+                            <Panel>
                                 <FormControl
                                     onChange={this.handleChangeSubject}
                                     componentClass='select'
@@ -133,18 +138,15 @@ export default class QuestionEditor extends Component {
                                     <option value=''>Select subject</option>
                                     {this.renderSubjectsList()}
                                 </FormControl>
-                        </Col>
-                        <Col md={6} mdOffset={3}>
-                            <FormControl
-                                componentClass="textarea"
-                                placeholder="textarea"
-                                onChange={this.handleChangeText} name='text'
-                                defaultValue={question && question.text ? question.text : ''}
-                                value={this.text}
-                            />
-                        </Col>
-                        <Col md={6} mdOffset={3}>
-                            {this.renderAnswersList(6)}
+                                <FormControl
+                                    componentClass="textarea"
+                                    placeholder="textarea"
+                                    onChange={this.handleChangeText} name='text'
+                                    defaultValue={question && question.text ? question.text : ''}
+                                    value={this.text}
+                                />
+                                {this.renderAnswersList(6)}
+                            </Panel>
                         </Col>
                     </Row> :
                     null

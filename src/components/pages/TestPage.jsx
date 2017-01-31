@@ -1,23 +1,27 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import { observable } from 'mobx';
+import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, InputGroup, ButtonToolbar, Panel, Well, Modal } from 'react-bootstrap';
 
-@inject('viewStore', 'testStore') @observer
+@inject('testStore') @observer
 export default class TestPage extends Component {
+    @observable isShowModal = false;
     static propTypes = {
-        viewStore : MobxTypes.observableObject,
         testStore : MobxTypes.observableObject
     };
     async componentWillMount() {
         const { testStore } = this.props;
         this.testId = this.props.location.pathname.replace('/test/', '');
         await testStore.getQuestion(this.testId);
-        console.log('question', testStore.question);
         this.selectedAnswer = [];
     }
 
-    handleSaveTest = async () => {
+    handleSaveTest = () => {
+        this.isShowModal = true;
+    }
 
+    close = () => {
+        this.isShowModal = false;
     }
 
     handleNextQuestion = async () => {
@@ -37,18 +41,18 @@ export default class TestPage extends Component {
                 question : question.id,
                 answer : index
             }, this.testId);
-            await getQuestion(this.testId);
+            setTimeout(() => getQuestion(this.testId), 1000);
         }
     }
 
     renderAnswerList = () => {
-        const { question } = this.props.testStore;
+        const { question, correct } = this.props.testStore;
         const answerIndex = question.answerIndex || undefined;
         return (
             question.answers.map((item, index) => {
                 return (
-                    <div
-                        key = {index}
+                    <Col md={12}
+                        key = {index+question.id}
                         className = {
                             index === answerIndex
                             ?
@@ -56,15 +60,21 @@ export default class TestPage extends Component {
                             :
                             null
                         }>
-                        <label >
-                            <input
-                                onClick = {this.handleSelectAnswer.bind(this, index)}
-                                type    ="radio" name="optradio"
-                            >
-                            </input>
-                            { item }
-                        </label>
-                    </div>
+                        <Col
+                            md={12}
+                            className={correct === index ? 'correct' : ''}
+                        >
+                            <label>
+                                <input
+                                    onClick = {this.handleSelectAnswer.bind(this, index)}
+                                    type    ='radio'
+                                    name    = 'optradio'
+                                >
+                                </input>
+                                { item }
+                            </label>
+                        </Col>
+                    </Col>
                 );
             })
         );
@@ -73,17 +83,21 @@ export default class TestPage extends Component {
     render() {
         const { question } = this.props.testStore;
         return (
-            <div>
+            <Row>
+                <Button onClick={this.handleSaveTest}>Save</Button>
                 {
                     question.code ?
-                    <div>
-                        Test completed <br/>
-                        Your result: { question.test.result }%
-                    </div>
+                    <Col md={6} mdOffset={3}>
+                        <Panel>
+                            <h4>Test completed</h4> <br/>
+                            Your result: { question.test.result }%
+                        </Panel>
+                    </Col>
                     :
-                    <div>
-                        <button onClick={this.handleSaveTest}>Save</button>
-                        {question.text}
+                    <Col md={6} mdOffset={3}>
+                        <Panel>
+                            {question.text}
+                        </Panel>
                         {question.answers ? this.renderAnswerList() : null}
                         {
                             question.testType === 'TESTING' ?
@@ -91,9 +105,19 @@ export default class TestPage extends Component {
                             :
                             null
                         }
-                    </div>
+                    </Col>
                 }
-            </div>
+                <Modal show={this.isShowModal} onHide={this.close}>
+                    <Modal.Header closeButton>
+                        Save the code to restore session
+                    </Modal.Header>
+                    <Modal.Body>
+                        <h4 className='alignCenter'>{this.testId}</h4>
+                    </Modal.Body>
+                </Modal>
+            </Row>
+
+
         );
     }
 }

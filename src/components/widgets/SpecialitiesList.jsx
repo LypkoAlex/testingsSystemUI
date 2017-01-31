@@ -1,11 +1,10 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import { observable } from 'mobx';
-import {  Table, Button, FormControl, ButtonToolbar } from 'react-bootstrap'
+import {  Table, Button, FormControl, ButtonToolbar, Row, Panel } from 'react-bootstrap'
 @inject('specialitiesStore')
 export default @observer class QuestionsTable extends Component {
     static propTypes = {
-        viewStore     : MobxTypes.observableObject,
         questionsStore: MobxTypes.observableObject,
         searchQuery   : PropTypes.string,
         questions     : PropTypes.object
@@ -75,18 +74,22 @@ export default @observer class QuestionsTable extends Component {
         const { questions } = this.props;
 
         return (
-            <Table responsive>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Specialty Name</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    { this.renderSpecialitiesList() }
-                </tbody>
-            </Table>
+            <Row  className='listItems'>
+                <Panel>
+                    <Table responsive>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Specialty Name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { this.renderSpecialitiesList() }
+                        </tbody>
+                    </Table>
+                </Panel>
+            </Row>
         );
     }
 }

@@ -11,7 +11,7 @@ export default class SubjectPage extends Component {
     @observable filter;
     @observable speciality;
     static propTypes = {
-        viewStore: MobxTypes.observableObject
+        subjectStore: MobxTypes.observableObject
     };
 
     async componentWillMount () {
@@ -60,21 +60,6 @@ export default class SubjectPage extends Component {
                 <Row>
                     <Col md={6}>
                         <FormGroup controlId="formControlsSelect">
-                            <ControlLabel>Filter by speciality</ControlLabel>
-                            <FormControl
-                                componentClass="select"
-                                placeholder="select"
-                                onChange={this.handleChangeSpecialityFilter}
-                            >
-                                <option value=''>All</option>
-                                {this.renderSpecialitiesList()}
-                            </FormControl>
-                        </FormGroup>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={6}>
-                        <FormGroup controlId="formControlsSelect">
                             <FormControl
                                 componentClass="select"
                                 placeholder="select"
@@ -101,11 +86,26 @@ export default class SubjectPage extends Component {
                             disabled={ !(this.subjectName && this.speciality) }
                         >Add</Button>
                     </Col>
+                </Row>
+                <Row>
+                    <Col md={4} mdOffset={8}>
+                        <FormGroup controlId="formControlsSelect">
+                            <ControlLabel>Filter by speciality</ControlLabel>
+                            <FormControl
+                                componentClass="select"
+                                placeholder="select"
+                                onChange={this.handleChangeSpecialityFilter}
+                            >
+                                <option value=''>All</option>
+                                {this.renderSpecialitiesList()}
+                            </FormControl>
+                        </FormGroup>
+                    </Col>
+                </Row>
                     <SubjectsList
                         subjects = {subjects}
                         filter   = {this.filter}
                     />
-                </Row>
             </Row>
         );
     }

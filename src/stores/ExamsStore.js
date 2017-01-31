@@ -14,7 +14,6 @@ class ExamsStore {
 
             runInAction('Update state after fetchSubjects', () => {
                 this.exams.replace(exams);
-                // console.log(exams);
                 this.isLoading = false;
             });
         } catch (error) {
@@ -58,7 +57,6 @@ class ExamsStore {
     @action updateExam = async (id, data) => {
         this.isLoading = true;
         const exam = await patch(`/exams/${id}`, data);
-        console.log('examexamexam', exam);
         await this.fetchExams();
         runInAction('Update state after fetchSubjects', () => {
             this.exam = { ...exam };

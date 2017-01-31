@@ -77,11 +77,9 @@ export default class ExamsPage extends Component {
                         >Add</Button>
                     </Col>
                 </Row>
-                <Row>
                     <ExamsList
                         exams = {exams}
                     />
-                </Row>
             </Row>
         );
     }

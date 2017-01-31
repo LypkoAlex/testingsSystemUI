@@ -1,6 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import NavigationBar from '../NavigationBar'
-
+import {
+    Navbar,
+    Nav,
+    Grid,
+    NavDropdown,
+    MenuItem
+} from 'react-bootstrap'
 // import NavBar from '../widgets/MainNavBar';
 // import RaisedButton from 'material-ui/RaisedButton';
 export default class MainLayout extends Component {
@@ -12,9 +18,11 @@ export default class MainLayout extends Component {
         const { children } = this.props;
 
         return (
-            <div>
+            <div className='container'>
                 <NavigationBar/>
-                {children}
+                <Grid>
+                    {children}
+                </Grid>
             </div>
         );
     }

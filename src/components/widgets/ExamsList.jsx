@@ -1,13 +1,12 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
-import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, Table, ButtonToolbar } from 'react-bootstrap'
+import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, Table, ButtonToolbar, Panel } from 'react-bootstrap'
 import { observable } from 'mobx';
 import { browserHistory } from 'react-router'
 
 @inject('specialitiesStore', 'examsStore')
 export default @observer class QuestionsTable extends Component {
     static propTypes = {
-        viewStore     : MobxTypes.observableObject,
         questionsStore: MobxTypes.observableObject,
         searchQuery   : PropTypes.string,
         questions     : PropTypes.object
@@ -110,21 +109,23 @@ export default @observer class QuestionsTable extends Component {
         const { questions } = this.props;
         console.log(this.editedValue);
         return (
-            <Col md={12}>
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Exam Name</th>
-                            <th>Specialty</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        { this.renderExamsList() }
-                    </tbody>
-                </Table>
-            </Col>
+            <Row  className='listItems'>
+                <Panel>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Exam Name</th>
+                                <th>Specialty</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { this.renderExamsList() }
+                        </tbody>
+                    </Table>
+                </Panel>
+            </Row>
         );
     }
 }

@@ -1,12 +1,11 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import { observable } from 'mobx';
-import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, Table, ButtonToolbar } from 'react-bootstrap';
+import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, Table, ButtonToolbar, Panel } from 'react-bootstrap';
 
 @inject('specialitiesStore', 'subjectStore', 'examsStore')
 export default @observer class QuestionsTable extends Component {
     static propTypes = {
-        viewStore     : MobxTypes.observableObject,
         questionsStore: MobxTypes.observableObject,
         searchQuery   : PropTypes.string,
         questions     : PropTypes.object
@@ -102,24 +101,26 @@ export default @observer class QuestionsTable extends Component {
     render() {
         const { exam } = this.props.examsStore;
         return (
-            <Col md={12}>
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Subject Name</th>
-                            <th>Count</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {   exam.subjects ?
-                            this.renderExamSubjectList() :
-                            null
-                        }
-                    </tbody>
-                </Table>
-            </Col>
+            <Row  className='listItems'>
+                <Panel>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Subject Name</th>
+                                <th>Count</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {   exam.subjects ?
+                                this.renderExamSubjectList() :
+                                null
+                            }
+                        </tbody>
+                    </Table>
+                </Panel>
+            </Row>
         );
     }
 }

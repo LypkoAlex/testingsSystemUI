@@ -1,12 +1,11 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
-import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, Table, ButtonToolbar } from 'react-bootstrap'
+import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, Table, ButtonToolbar, Panel } from 'react-bootstrap'
 import { observable } from 'mobx';
 
 @inject('specialitiesStore', 'subjectStore')
 export default @observer class QuestionsTable extends Component {
     static propTypes = {
-        viewStore     : MobxTypes.observableObject,
         questionsStore: MobxTypes.observableObject,
         searchQuery   : PropTypes.string,
         questions     : PropTypes.object
@@ -106,21 +105,23 @@ export default @observer class QuestionsTable extends Component {
         const { questions } = this.props;
 
         return (
-            <Col md={12}>
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Subject Name</th>
-                            <th>Specialty</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        { this.renderSubjectList() }
-                    </tbody>
-                </Table>
-            </Col>
+            <Row  className='listItems'>
+                <Panel>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Subject Name</th>
+                                <th>Specialty</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { this.renderSubjectList() }
+                        </tbody>
+                    </Table>
+                </Panel>
+            </Row>
         );
     }
 }

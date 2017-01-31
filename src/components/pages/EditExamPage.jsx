@@ -81,9 +81,7 @@ export default class ExamsPage extends Component {
                         <Button onClick={this.handleAddSubject} disabled={!(this.subject && this.count)}>Add</Button>
                     </Col>
                 </Row>
-                <Row>
-                    <ExamSubjectsList/>
-                </Row>
+                <ExamSubjectsList/>
             </Row>
         );
     }

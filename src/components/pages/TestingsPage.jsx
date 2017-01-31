@@ -2,37 +2,32 @@ import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import { browserHistory }              from 'react-router';
 import { observable }  from 'mobx';
+import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, InputGroup, ButtonToolbar } from 'react-bootstrap';
 
-@inject('viewStore', 'specialitiesStore', 'examsStore', 'subjectStore', 'testStore') @observer
+@inject('specialitiesStore', 'examsStore', 'subjectStore', 'testStore') @observer
 
 class TestingPage extends Component {
+    @observable examId;
+    @observable type;
+    @observable subjectId;
     static propTypes = {
-        viewStore        : MobxTypes.observableObject,
         specialitiesStore: MobxTypes.observableObject,
         subjectsStore    : MobxTypes.observableObject,
         testStore    : MobxTypes.observableObject,
         examsStore       : MobxTypes.observableObject
     };
     async componentWillMount() {
-        console.log(this.props);
         const { specialitiesStore } = this.props;
-        console.log('specialitiesStore', specialitiesStore);
         await specialitiesStore.fetchSpecialities();
     }
 
     handleStart = async () => {
         const { testStore } = this.props;
-        console.log({
-            speciality : this.specialityId,
-            subject    : this.subjectId,
-            type       : this.type
-        });
         const test = await testStore.createTest(this.examId, {
             speciality : this.specialityId,
             subject    : this.subjectId,
             type       : this.type
         });
-        console.log('test', test);
         browserHistory.push(`/test/${test.id}`)
     }
 
@@ -52,6 +47,7 @@ class TestingPage extends Component {
 
     handleExamsSelect = async (e) => {
         this.examId = e.target.value;
+        console.log(this.examId);
     }
 
     handleSubjectSelect = async (e) => {
@@ -93,32 +89,70 @@ class TestingPage extends Component {
 
     render() {
         return (
-            <div className='row'>
-                <select
-                    onChange={this.handleSpecialitySelect}
+            <Row>
+                <Row>
+                    <Col md={3}>
+                        <FormGroup>
+                            <ControlLabel>Speciality</ControlLabel>
+                            <FormControl
+                                componentClass="select"
+                                onChange={this.handleSpecialitySelect}
+                            >
+                                <option value=''></option>
+                                { this.renderSpecialitiesList() }
+                            </FormControl>
+                        </FormGroup>
+                    </Col>
+                    <Col md={3}>
+                        <FormGroup>
+                            <ControlLabel>Exam</ControlLabel>
+                            <FormControl
+                                componentClass="select"
+                                onChange={this.handleExamsSelect}
+                                disabled={!this.specialityId}
+                            >
+                                <option value=''></option>
+                                { this.renderExamsList() }
+                            </FormControl>
+                        </FormGroup>
+                    </Col>
+                    <Col md={3}>
+                        <FormGroup>
+                            <ControlLabel>Type</ControlLabel>
+                            <FormControl
+                                componentClass="select"
+                                onChange={this.handleTypeSelect}
+                                disabled={!this.examId}
+                            >
+                                <option value=''></option>
+                                <option value='EXAM'>EXAM</option>
+                                <option value='TESTING'>TESTING</option>
+                            </FormControl>
+                        </FormGroup>
+                    </Col>
+                    <Col md={3}>
+                        <FormGroup>
+                            <ControlLabel>Subject</ControlLabel>
+                            <FormControl
+                                componentClass="select"
+                                onChange={this.handleSubjectSelect}
+                                disabled={this.type !== 'TESTING'}
+                            >
+                                <option value=''></option>
+                                { this.renderSubjectsList() }
+                            </FormControl>
+                    </FormGroup>
+                    </Col>
+                </Row>
+                <Button
+                    bsStyle="primary"
+                    className='col-centered'
+                    onClick={this.handleStart}
+                    disabled={!(this.examId && this.specialityId && (this.type === 'EXAM' || this.subjectId))}
                 >
-                    { this.renderSpecialitiesList() }
-                </select>
-                <select
-                    onChange={this.handleExamsSelect}
-                >
-                    { this.renderExamsList() }
-                </select>
-                <select
-                    onChange={this.handleTypeSelect}
-                >
-                    <option value='EXAM'>EXAM</option>
-                    <option value='TESTING'>TESTING</option>
-                </select>
-                <select
-                    onChange={this.handleSubjectSelect}
-                >
-                    { this.renderSubjectsList() }
-                </select>
-                <button onClick={this.handleStart}>
                     Start
-                </button>
-            </div>
+                </Button>
+            </Row>
         );
     }
 }

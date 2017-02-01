@@ -26,21 +26,17 @@ export default class TestPage extends Component {
 
     handleNextQuestion = async () => {
         const { question, checkAnswer, getQuestion } = this.props.testStore;
-        await checkAnswer({
-            question : question.id,
-            answer : this.answer
-        }, this.testId);
         await getQuestion(this.testId);
     }
 
     handleSelectAnswer = async (index) => {
         const { question, checkAnswer, getQuestion } = this.props.testStore;
         this.answer = index;
-        if (question.testType === 'EXAM') {
             await checkAnswer({
                 question : question.id,
                 answer : index
             }, this.testId);
+        if (question.testType === 'EXAM') {
             setTimeout(() => getQuestion(this.testId), 1000);
         }
     }
@@ -64,7 +60,7 @@ export default class TestPage extends Component {
                             md={12}
                             className={correct === index ? 'correct' : ''}
                         >
-                            <label>
+                            <label className='answerLabel'>
                                 <input
                                     onClick = {this.handleSelectAnswer.bind(this, index)}
                                     type    ='radio'
@@ -101,7 +97,7 @@ export default class TestPage extends Component {
                         {question.answers ? this.renderAnswerList() : null}
                         {
                             question.testType === 'TESTING' ?
-                            <button onClick={this.handleNextQuestion}>NEXT</button>
+                            <Button className='questionForm center' onClick={this.handleNextQuestion}>NEXT</Button>
                             :
                             null
                         }

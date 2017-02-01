@@ -4,13 +4,18 @@ import {
     Navbar,
     Nav,
     NavDropdown,
-    MenuItem
+    MenuItem,
+    Button
 } from 'react-bootstrap'
 import NavItem from './NavigationItem'
-// import styles from './NavigationBar.css'
+import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
+import { observable } from 'mobx';
+
+@inject('authStore') @observer
 
 class NavigationBar extends React.Component {
     render() {
+        const { isAuth, logOut } = this.props.authStore;
         return (
             <Navbar>
                 <Navbar.Header>
@@ -24,6 +29,12 @@ class NavigationBar extends React.Component {
                     <NavItem to='/admin/subjects'>   Subjects   </NavItem>
                     <NavItem to='/admin/spaciality'> Speciality </NavItem>
                 </Nav>
+                {   isAuth ?
+                    <Nav pullRight className='logOut'>
+                        <Button onClick={logOut} className='nav-item'>logOut</Button>
+                    </Nav> :
+                    null
+                }
             </Navbar>
         )
     }

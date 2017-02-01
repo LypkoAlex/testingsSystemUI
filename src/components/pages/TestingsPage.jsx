@@ -13,7 +13,7 @@ class TestingPage extends Component {
     static propTypes = {
         specialitiesStore: MobxTypes.observableObject,
         subjectsStore    : MobxTypes.observableObject,
-        testStore    : MobxTypes.observableObject,
+        testStore        : MobxTypes.observableObject,
         examsStore       : MobxTypes.observableObject
     };
     async componentWillMount() {

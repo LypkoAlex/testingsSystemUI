@@ -17,7 +17,7 @@ module.exports = {
 	module: {
 		loaders: loaders.concat([{
 			test: /\.css$/,
-			loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]')
+			loader: "style-loader!css-loader"
 		}])
 	},
 	plugins: [

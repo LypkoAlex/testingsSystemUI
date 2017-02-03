@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import {  Row, Button, FormControl, ControlLabel, FormGroup, Col } from 'react-bootstrap';
 import { observable } from 'mobx';
-
+// import FileBase64 from 'react-file-base64';
 import QuestionsTable           from '../widgets/QuestionsList';
 
 

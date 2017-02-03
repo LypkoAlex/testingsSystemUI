@@ -93,6 +93,15 @@ export default class TestPage extends Component {
                     <Col md={6} mdOffset={3}>
                         <Panel>
                             {question.text}
+                            {question.img ?
+                                <img
+                                    src={question.img}
+                                    height='200'
+                                    alt='Image preview...'
+                                    className='img-thumbnail'
+                                /> :
+                                null
+                            }
                         </Panel>
                         {question.answers ? this.renderAnswerList() : null}
                         {

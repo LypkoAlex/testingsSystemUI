@@ -21,18 +21,20 @@ class QuestionsStore {
         }
     }
 
-    // Запитати Рому
     @action fetchQuestion = async id => {
-        const question = await get(`/questions/${id}`);
-        console.log('QUESTION STORE', question);
-        runInAction('Update state after fetchQuestion', () => {
-            this.question = question;
-        });
+        try {
+            const question = await get(`/questions/${id}`);
+            runInAction('Update state after fetchQuestion', () => {
+                console.log('sdfffffffffffffffffff', question);
+                this.question = question.text ? question : {};
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     @action createQuestion = async (subjectId, data) => {
         try {
-            console.log('data!!!!', data);
             await post(`/subjects/${subjectId}/questions`, data);
             // await this.fetchQuestions();
         } catch (error) {

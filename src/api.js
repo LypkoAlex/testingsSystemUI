@@ -1,6 +1,7 @@
 import queryString     from 'query-string';
+import { beUrl } from '../etc/config.json';
 
-const beUrl = 'http://104.131.48.6:8080/api/v1';
+// const beUrl = 'http://104.131.48.6:8080/api/v1';
 
 export async function post(url, data = {}) {
     return await request({ url, method: 'POST', data });

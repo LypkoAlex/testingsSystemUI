@@ -33,7 +33,7 @@ export default class QuestionEditor extends Component {
     }
 
     handleClickSave = async (isNew) => {
-        const { createQuestion, updateQuestion, question } = this.props.questionsStore;
+        const { createQuestion, updateQuestion, resetQuestion, question } = this.props.questionsStore;
         const set = {};
 
         if (this.subject)     set.subject = this.subject;
@@ -62,7 +62,8 @@ export default class QuestionEditor extends Component {
         if (isNew) {
             this.questionId = 'new';
         }
-        browserHistory.push(isNew ? '/admin/questions/' : '/admin/questions'); // cskjvhskjlvhdkj
+        resetQuestion();
+        browserHistory.push(isNew ? '/admin/questions/new' : '/admin/questions'); // cskjvhskjlvhdkj
     }
 
     handleChangeAnswerIndex = (e) => {

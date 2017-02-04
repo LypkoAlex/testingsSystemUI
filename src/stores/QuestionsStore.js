@@ -25,12 +25,17 @@ class QuestionsStore {
         try {
             const question = await get(`/questions/${id}`);
             runInAction('Update state after fetchQuestion', () => {
-                console.log('sdfffffffffffffffffff', question);
                 this.question = question.text ? question : {};
             });
         } catch (error) {
             console.log(error);
         }
+    }
+
+    @action resetQuestion = () => {
+        runInAction('Update state after fetchQuestion', () => {
+            this.question = {};
+        });
     }
 
     @action createQuestion = async (subjectId, data) => {

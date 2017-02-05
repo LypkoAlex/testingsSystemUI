@@ -18,8 +18,9 @@ export default class QuestionsPage extends Component {
     @observable selectedSubject = '';
 
     async componentWillMount() {
-        const { fetchQuestions } = this.props.questionsStore;
+        const { fetchQuestions, resetQuestion } = this.props.questionsStore;
         const { fetchSubjects  } = this.props.subjectStore;
+        resetQuestion();
         await fetchQuestions();
         await fetchSubjects();
     }

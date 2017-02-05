@@ -23,7 +23,7 @@ export default @observer class QuestionsTable extends Component {
 
     renderQuestionsList() {
         const { questions, searchQuery, subject } = this.props;
-        console.log(questions);
+
         return questions
             .filter(question => searchQuery ? question.text && question.text.includes(searchQuery) : true)
             .filter(question => subject ? question.subject._id === subject : true)
@@ -33,7 +33,7 @@ export default @observer class QuestionsTable extends Component {
                     key={i}
                 >
                     <th scope='row'>{i}</th>
-                    <td>
+                    <td className='QuestionText'>
                         {question.text}
                     </td>
                     <td>

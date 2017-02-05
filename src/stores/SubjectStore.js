@@ -37,17 +37,19 @@ class SubjectStore {
     }
 
     @action createSubject = async (specialityId, title) => {
+        this.isLoading = true;
         await post(`/specialities/${specialityId}/subjects`, { title });
         await this.fetchSubjects();
     }
 
     @action updateSubject = async (id, data) => {
-        console.log(id, data);
+        this.isLoading = true;
         await patch(`/subjects/${id}`, data);
         await this.fetchSubjects();
     }
 
     @action deleteSubject = async (id) => {
+        this.isLoading = true;
         await del(`/subjects/${id}`);
         await this.fetchSubjects();
     }

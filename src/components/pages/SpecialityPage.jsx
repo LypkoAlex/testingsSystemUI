@@ -1,7 +1,7 @@
 import React, { Component, PropTypes }              from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import { observable }                               from 'mobx';
-
+import Spiner                                       from '../widgets/Spiner';
 import { FormGroup, Col, FormControl, InputGroup, Button, Row } from 'react-bootstrap';
 
 import SpecialitiesList from '../widgets/SpecialitiesList.jsx'
@@ -35,32 +35,39 @@ export default class SpecialityPage extends Component {
     }
 
     render() {
-        const { specialities } = this.props.specialitiesStore
+        const { specialities, isLoading } = this.props.specialitiesStore
         return (
-            <Row>
-                <Col md={6} mdOffset={3}>
-                    <FormGroup>
-                        <InputGroup>
-                            <FormControl
-                                placeholder='New Speciality'
-                                type="text"
-                                value={this.newSpeciality} onChange={this.handleChangeNew}
-                            />
-                            <InputGroup.Button>
-                                <Button
-                                    onClick={this.handleAddNew}
-                                    disabled={!this.newSpeciality}
-                                >Add</Button>
-                            </InputGroup.Button>
-                        </InputGroup>
-                    </FormGroup>
-                </Col>
-                <Col md={8} mdOffset={2}>
-                    <SpecialitiesList
-                        specialities = {specialities}
-                    />
-                </Col>
-            </Row>
+            <div className='reletiveBlock'>
+                {
+                    isLoading ?
+                        <Spiner />
+                    : null
+                }
+                <Row>
+                    <Col md={6} mdOffset={3}>
+                        <FormGroup>
+                            <InputGroup>
+                                <FormControl
+                                    placeholder='New Speciality'
+                                    type="text"
+                                    value={this.newSpeciality} onChange={this.handleChangeNew}
+                                />
+                                <InputGroup.Button>
+                                    <Button
+                                        onClick={this.handleAddNew}
+                                        disabled={!this.newSpeciality}
+                                    >Add</Button>
+                                </InputGroup.Button>
+                            </InputGroup>
+                        </FormGroup>
+                    </Col>
+                    <Col md={8} mdOffset={2}>
+                        <SpecialitiesList
+                            specialities = {specialities}
+                        />
+                    </Col>
+                </Row>
+            </div>
         );
     }
 }

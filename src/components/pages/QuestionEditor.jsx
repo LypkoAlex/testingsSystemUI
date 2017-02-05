@@ -1,10 +1,12 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, InputGroup, ButtonToolbar, Panel, Img } from 'react-bootstrap';
-import { observable } from 'mobx';
-import uuid from 'uuid';
-import { Link } from 'react-router';
+import { observable }     from 'mobx';
+import uuid               from 'uuid';
+import { Link }           from 'react-router';
 import { browserHistory } from 'react-router'
+import Spiner             from '../widgets/Spiner';
+
 
 @inject('questionsStore', 'subjectStore') @observer
 export default class QuestionEditor extends Component {
@@ -181,7 +183,9 @@ export default class QuestionEditor extends Component {
                             </Panel>
                         </Col>
                     </Row> :
-                    null
+                    <div className='reletiveBlock'>
+                        <Spiner />
+                    </div>
                 }
             </Row>
         );

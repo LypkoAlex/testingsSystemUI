@@ -1,6 +1,8 @@
-import React, { Component, PropTypes }          from 'react';
+import React, { Component, PropTypes }              from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
-import { observable } from 'mobx';
+import { observable }                               from 'mobx';
+import Spiner                                       from '../widgets/Spiner';
+
 import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, InputGroup, ButtonToolbar, Panel, Well, Modal } from 'react-bootstrap';
 
 @inject('testStore') @observer
@@ -77,52 +79,57 @@ export default class TestPage extends Component {
     }
 
     render() {
-        const { question } = this.props.testStore;
+        const { question, isLoading } = this.props.testStore;
         return (
-            <Row>
-                <Button onClick={this.handleSaveTest}>Save</Button>
+            <div className='reletiveBlock'>
                 {
-                    question.code ?
-                    <Col md={6} mdOffset={3}>
-                        <Panel>
-                            <h4>Test completed</h4> <br/>
-                            Your result: { question.test.result }%
-                        </Panel>
-                    </Col>
-                    :
-                    <Col md={6} mdOffset={3}>
-                        <Panel>
-                            {question.text}
-                            {question.img ?
-                                <img
-                                    src={question.img}
-                                    height='200'
-                                    alt='Image preview...'
-                                    className='img-thumbnail'
-                                /> :
+                    isLoading ?
+                        <Spiner />
+                    : null
+                }
+                <Row>
+                    <Button onClick={this.handleSaveTest}>Save</Button>
+                    {
+                        question.code ?
+                        <Col md={6} mdOffset={3}>
+                            <Panel>
+                                <h4>Test completed</h4> <br/>
+                                Your result: { question.test.result.toFixed(2) }%
+                            </Panel>
+                        </Col>
+                        :
+                        <Col md={6} mdOffset={3}>
+                            <Panel>
+                                {question.text}
+                                {question.img ?
+                                    <img
+                                        src={question.img}
+                                        height='200'
+                                        alt='Image preview...'
+                                        className='img-thumbnail'
+                                    /> :
+                                    null
+                                }
+                            </Panel>
+                            {question.answers ? this.renderAnswerList() : null}
+                            {
+                                question.testType === 'TESTING' ?
+                                <Button className='questionForm center' onClick={this.handleNextQuestion}>NEXT</Button>
+                                :
                                 null
                             }
-                        </Panel>
-                        {question.answers ? this.renderAnswerList() : null}
-                        {
-                            question.testType === 'TESTING' ?
-                            <Button className='questionForm center' onClick={this.handleNextQuestion}>NEXT</Button>
-                            :
-                            null
-                        }
-                    </Col>
-                }
-                <Modal show={this.isShowModal} onHide={this.close}>
-                    <Modal.Header closeButton>
-                        Save the code to restore session
-                    </Modal.Header>
-                    <Modal.Body>
-                        <h4 className='alignCenter'>{this.testId}</h4>
-                    </Modal.Body>
-                </Modal>
-            </Row>
-
-
+                        </Col>
+                    }
+                    <Modal show={this.isShowModal} onHide={this.close}>
+                        <Modal.Header closeButton>
+                            Save the code to restore session
+                        </Modal.Header>
+                        <Modal.Body>
+                            <h4 className='alignCenter'>{this.testId}</h4>
+                        </Modal.Body>
+                    </Modal>
+                </Row>
+            </div>
         );
     }
 }

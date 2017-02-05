@@ -1,9 +1,9 @@
-import React, { Component, PropTypes }          from 'react';
-import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
-import {  Row, Button, FormControl, ControlLabel, FormGroup, Col } from 'react-bootstrap'
+import React, { Component, PropTypes }                             from 'react';
+import { observer, inject, propTypes as MobxTypes }                from 'mobx-react';
+import {  Row, Button, FormControl, ControlLabel, FormGroup, Col } from 'react-bootstrap';
 import { observable } from 'mobx';
-
-import SubjectsList from '../widgets/SubjectsList.jsx'
+import Spiner         from '../widgets/Spiner';
+import SubjectsList   from '../widgets/SubjectsList.jsx';
 
 @inject('subjectStore', 'specialitiesStore') @observer
 export default class SubjectPage extends Component {
@@ -29,21 +29,19 @@ export default class SubjectPage extends Component {
         this.speciality = e.target.value;
     }
 
-    handleCreateSubject = async () => {
+    handleCreateSubject = () => {
         const { createSubject } = this.props.subjectStore;
-        await createSubject(this.speciality, this.subjectName);
+        createSubject(this.speciality, this.subjectName);
         this.speciality  = '';
         this.subjectName = '';
     }
 
     handleChangeSpecialityFilter = (e) => {
-        console.log(e.target.value);
         this.filter = e.target.value;
     }
 
     renderSpecialitiesList = () => {
         const { specialities } = this.props.specialitiesStore;
-        console.log(specialities);
         return specialities.map( speciality => {
             console.log(speciality.title);
             return (
@@ -53,60 +51,66 @@ export default class SubjectPage extends Component {
     }
 
     render() {
-        const { subjects } = this.props.subjectStore;
-        console.log('this.subjectName:=>', this.subjectName);
+        const { subjects, isLoading } = this.props.subjectStore;
         return (
-            <Row>
+            <div className='reletiveBlock'>
+                {
+                    isLoading ?
+                        <Spiner />
+                    : null
+                }
                 <Row>
-                    <Col md={6}>
-                        <FormGroup controlId="formControlsSelect">
-                            <FormControl
-                                componentClass="select"
-                                placeholder="select"
-                                onChange={this.handleChangeSpeciality}
-                                value={this.speciality}
-                            >
-                                <option value=''>Specialities</option>
-                                {this.renderSpecialitiesList()}
-                            </FormControl>
-                        </FormGroup>
-                    </Col>
-                    <Col md={3}>
-                        <FormGroup>
-                            <FormControl
-                                onChange={this.handleChangeSubjectName}
-                                value={this.subjectName}
-                                placeholder='Subject title'>
-                            </FormControl>
-                        </FormGroup>
-                    </Col>
-                    <Col md={3}>
-                        <Button
-                            onClick={this.handleCreateSubject}
-                            disabled={ !(this.subjectName && this.speciality) }
-                        >Add</Button>
-                    </Col>
+                    <Row>
+                        <Col md={6}>
+                            <FormGroup controlId="formControlsSelect">
+                                <FormControl
+                                    componentClass="select"
+                                    placeholder="select"
+                                    onChange={this.handleChangeSpeciality}
+                                    value={this.speciality}
+                                >
+                                    <option value=''>Specialities</option>
+                                    {this.renderSpecialitiesList()}
+                                </FormControl>
+                            </FormGroup>
+                        </Col>
+                        <Col md={3}>
+                            <FormGroup>
+                                <FormControl
+                                    onChange={this.handleChangeSubjectName}
+                                    value={this.subjectName}
+                                    placeholder='Subject title'>
+                                </FormControl>
+                            </FormGroup>
+                        </Col>
+                        <Col md={3}>
+                            <Button
+                                onClick={this.handleCreateSubject}
+                                disabled={ !(this.subjectName && this.speciality) }
+                            >Add</Button>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={4} mdOffset={8}>
+                            <FormGroup controlId="formControlsSelect">
+                                <ControlLabel>Filter by speciality</ControlLabel>
+                                <FormControl
+                                    componentClass="select"
+                                    placeholder="select"
+                                    onChange={this.handleChangeSpecialityFilter}
+                                >
+                                    <option value=''>All</option>
+                                    {this.renderSpecialitiesList()}
+                                </FormControl>
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                        <SubjectsList
+                            subjects = {subjects}
+                            filter   = {this.filter}
+                        />
                 </Row>
-                <Row>
-                    <Col md={4} mdOffset={8}>
-                        <FormGroup controlId="formControlsSelect">
-                            <ControlLabel>Filter by speciality</ControlLabel>
-                            <FormControl
-                                componentClass="select"
-                                placeholder="select"
-                                onChange={this.handleChangeSpecialityFilter}
-                            >
-                                <option value=''>All</option>
-                                {this.renderSpecialitiesList()}
-                            </FormControl>
-                        </FormGroup>
-                    </Col>
-                </Row>
-                    <SubjectsList
-                        subjects = {subjects}
-                        filter   = {this.filter}
-                    />
-            </Row>
+            </div>
         );
     }
 }

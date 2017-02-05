@@ -16,11 +16,12 @@ class TestStore {
 
     @action getQuestion = async (testId) => {
         try {
+            this.isLoading = true;
             const question = await get(`/tests/${testId}/nextQuestion`);
-            console.log('QUESTION', question);
             runInAction('Get question', () => {
                 this.correct = -1;
                 this.question = { ...question };
+                this.isLoading = false;
             });
         } catch (error) {
             console.log(error);
@@ -28,7 +29,6 @@ class TestStore {
     }
 
     @action checkAnswer = async (data, testId) => {
-        console.log('data', data);
         try {
             const answer = await post(`/tests/${testId}/checkAnswer`, data);
             runInAction('Check answer', () => {

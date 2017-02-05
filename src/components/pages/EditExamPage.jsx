@@ -1,9 +1,11 @@
-import React, { Component, PropTypes }          from 'react';
-import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
+import React, { Component, PropTypes }                                        from 'react';
+import { observer, inject, propTypes as MobxTypes }                           from 'mobx-react';
 import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, Jumbotron } from 'react-bootstrap';
-import { observable } from 'mobx';
+import { observable }                                                         from 'mobx';
 
+import Spiner           from '../widgets/Spiner';
 import ExamSubjectsList from '../widgets/ExamSubjectsList.jsx';
+
 @inject('examsStore', 'specialitiesStore', 'subjectStore') @observer
 export default class ExamsPage extends Component {
     @observable subject;
@@ -19,7 +21,6 @@ export default class ExamsPage extends Component {
         const { fetchSubjects } = this.props.subjectStore;
         const { fetchSpecialities } = this.props.specialitiesStore;
         const { fetchExam, exam } = this.props.examsStore;
-        await fetchExams();
         await fetchSubjects();
         await fetchSpecialities();
         this.examId = this.props.location.pathname.replace('/admin/exams/', '');
@@ -55,34 +56,42 @@ export default class ExamsPage extends Component {
     }
 
     render() {
+        const { isLoading } = this.props.examsStore;
         return (
-            <Row>
+            <div className='reletiveBlock'>
+                {
+                    isLoading ?
+                        <Spiner />
+                    : null
+                }
                 <Row>
-                    <Col md={3}>
-                        <FormControl
-                            componentClass="select"
-                            onChange={this.handleChangeSubject}
-                            value={this.subject}
-                        >
-                            <option value=''>Subject</option>
-                            {this.renderSubjectsList()}
-                        </FormControl>
-                    </Col>
-                    <Col md={6}>
-                        <FormControl
-                            type='number'
-                            onChange={this.handleChangeCount}
-                            value={this.count}
-                            placeholder='Count'
-                        >
-                        </FormControl>
-                    </Col>
-                    <Col md={3}>
-                        <Button onClick={this.handleAddSubject} disabled={!(this.subject && this.count)}>Add</Button>
-                    </Col>
+                    <Row>
+                        <Col md={3}>
+                            <FormControl
+                                componentClass="select"
+                                onChange={this.handleChangeSubject}
+                                value={this.subject}
+                            >
+                                <option value=''>Subject</option>
+                                {this.renderSubjectsList()}
+                            </FormControl>
+                        </Col>
+                        <Col md={6}>
+                            <FormControl
+                                type='number'
+                                onChange={this.handleChangeCount}
+                                value={this.count}
+                                placeholder='Count'
+                            >
+                            </FormControl>
+                        </Col>
+                        <Col md={3}>
+                            <Button onClick={this.handleAddSubject} disabled={!(this.subject && this.count)}>Add</Button>
+                        </Col>
+                    </Row>
+                    <ExamSubjectsList/>
                 </Row>
-                <ExamSubjectsList/>
-            </Row>
+            </div>
         );
     }
 }

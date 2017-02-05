@@ -3,8 +3,8 @@ import { Link } from 'react-router';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import {  Row, Button, FormControl, ControlLabel, FormGroup, Col } from 'react-bootstrap';
 import { observable } from 'mobx';
-// import FileBase64 from 'react-file-base64';
 import QuestionsTable           from '../widgets/QuestionsList';
+import Spiner           from '../widgets/Spiner';
 
 
 @inject('subjectStore', 'questionsStore') @observer
@@ -44,43 +44,50 @@ export default class QuestionsPage extends Component {
     }
 
     render() {
-        const { questions } = this.props.questionsStore;
+        const { questions, isLoading } = this.props.questionsStore;
 
         return (
-            <Row>
+            <div className='reletiveBlock'>
+                {
+                    isLoading ?
+                        <Spiner />
+                    : null
+                }
                 <Row>
-                    <Col md={4}>
-                        <FormControl
-                            type='text'
-                            value={this.searchQuery}
-                            onChange={this.handleSearch}
-                            placeholder='Search'
-                        />
-                    </Col>
-                    <Col md={4}>
-                        <FormControl
-                            componentClass="select"
-                            onChange={this.handleChangeSubject}
-                            value={this.selectedSubject}
-                        >
-                            <option value=''>Subject</option>
-                            {this.renderSubjectsList()}
-                        </FormControl>
-                    </Col>
-                    <Col md={4}>
-                        <Link className='btn btn-default pull-right' to='/admin/questions/new'>Add New Question</Link>
-                    </Col>
+                    <Row>
+                        <Col md={4}>
+                            <FormControl
+                                type='text'
+                                value={this.searchQuery}
+                                onChange={this.handleSearch}
+                                placeholder='Search'
+                            />
+                        </Col>
+                        <Col md={4}>
+                            <FormControl
+                                componentClass="select"
+                                onChange={this.handleChangeSubject}
+                                value={this.selectedSubject}
+                                >
+                                    <option value=''>Subject</option>
+                                    {this.renderSubjectsList()}
+                                </FormControl>
+                            </Col>
+                            <Col md={4}>
+                                <Link className='btn btn-default pull-right' to='/admin/questions/new'>Add New Question</Link>
+                            </Col>
+                        </Row>
+                        {
+                            questions
+                            ? <QuestionsTable
+                                questions   = {questions}
+                                searchQuery = {this.searchQuery}
+                                subject     = {this.selectedSubject}
+                            />
+                            : 'Questions'
+                }
                 </Row>
-                    {
-                        questions
-                        ? <QuestionsTable
-                            questions   = {questions}
-                            searchQuery = {this.searchQuery}
-                            subject     = {this.selectedSubject}
-                        />
-                        : 'Questions'
-                    }
-            </Row>
+            </div>
         );
     }
 }

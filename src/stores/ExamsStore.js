@@ -50,6 +50,7 @@ class ExamsStore {
     }
 
     @action createExam = async (specialityId, data) => {
+        this.isLoading = true;
         await post(`/specialities/${specialityId}/exams`, data);
         await this.fetchExams();
     }
@@ -65,6 +66,7 @@ class ExamsStore {
     }
 
     @action deleteExam = async (id) => {
+        this.isLoading = true;
         await del(`/exams/${id}`);
         await this.fetchExams();
     }

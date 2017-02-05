@@ -1,7 +1,8 @@
 import React, { Component, PropTypes }                                        from 'react';
 import { observer, inject, propTypes as MobxTypes }                           from 'mobx-react';
 import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, Jumbotron } from 'react-bootstrap';
-import { observable }                                                         from 'mobx';
+import { observable } from 'mobx';
+import { find }   from 'lodash';
 
 import Spiner           from '../widgets/Spiner';
 import ExamSubjectsList from '../widgets/ExamSubjectsList.jsx';
@@ -46,10 +47,19 @@ export default class ExamsPage extends Component {
 
     renderSubjectsList = () => {
         const { subjects } = this.props.subjectStore;
-        if(subjects) {
+        const { exam } = this.props.examsStore;
+
+        if(subjects && exam.subjects) {
+            const subjectsId = exam.subjects.map(item => item.subject._id);
             return subjects.map( subject => {
                 return (
-                    <option key={subject.id} value={subject.id}>{subject.title} {subject.questions.length}</option>
+                    <option
+                        key      ={subject.id}
+                        value    ={subject.id}
+                        disabled ={subjectsId.includes(subject.id)}
+                    >
+                        {subject.title} {subject.questions.length}
+                    </option>
                 );
             });
         }
@@ -57,6 +67,7 @@ export default class ExamsPage extends Component {
 
     render() {
         const { isLoading } = this.props.examsStore;
+        const { exam } = this.props.examsStore;
         return (
             <div className='reletiveBlock'>
                 {

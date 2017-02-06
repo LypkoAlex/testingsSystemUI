@@ -9,6 +9,7 @@ import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, InputGroup, Bu
 class TestingPage extends Component {
     @observable examId;
     @observable type;
+    @observable specialityId;
     @observable subjectId;
     static propTypes = {
         specialitiesStore: MobxTypes.observableObject,
@@ -122,41 +123,53 @@ class TestingPage extends Component {
                     }
                     </Col>
                     <Col md={3}>
-                        <FormGroup>
-                            <ControlLabel>Type</ControlLabel>
-                            <FormControl
-                                componentClass="select"
-                                onChange={this.handleTypeSelect}
-                                disabled={!this.examId}
-                            >
-                                <option value=''></option>
-                                <option value='EXAM'>EXAM</option>
-                                <option value='TESTING'>TESTING</option>
-                            </FormControl>
-                        </FormGroup>
+                        {
+                            this.examId ?
+                            <FormGroup>
+                                <ControlLabel>Type</ControlLabel>
+                                <FormControl
+                                    componentClass="select"
+                                    onChange={this.handleTypeSelect}
+                                    disabled={!this.examId}
+                                    >
+                                        <option value=''></option>
+                                        <option value='EXAM'>EXAM</option>
+                                        <option value='TESTING'>TESTING</option>
+                                    </FormControl>
+                                </FormGroup> :
+                                null
+                        }
                     </Col>
                     <Col md={3}>
-                        <FormGroup>
-                            <ControlLabel>Subject</ControlLabel>
-                            <FormControl
-                                componentClass="select"
-                                onChange={this.handleSubjectSelect}
-                                disabled={this.type !== 'TESTING'}
-                            >
-                                <option value=''></option>
-                                { this.renderSubjectsList() }
-                            </FormControl>
-                    </FormGroup>
+                        {
+                            this.type === 'TESTING' ?
+                            <FormGroup>
+                                <ControlLabel>Subject</ControlLabel>
+                                <FormControl
+                                    componentClass="select"
+                                    onChange={this.handleSubjectSelect}
+                                    disabled={this.type !== 'TESTING'}
+                                    >
+                                        <option value=''></option>
+                                        { this.renderSubjectsList() }
+                                    </FormControl>
+                            </FormGroup> :
+                            null
+                        }
                     </Col>
                 </Row>
-                <Button
-                    bsStyle="primary"
-                    className='col-centered'
-                    onClick={this.handleStart}
-                    disabled={!(this.examId && this.specialityId && (this.type === 'EXAM' || this.subjectId))}
-                >
-                    Start
-                </Button>
+                {
+                    this.examId && this.specialityId && (this.type === 'EXAM' || this.subjectId) ?
+                    <Button
+                        bsStyle="primary"
+                        className='col-centered'
+                        onClick={this.handleStart}
+                        disabled={!(this.examId && this.specialityId && (this.type === 'EXAM' || this.subjectId))}
+                        >
+                            Start
+                    </Button> :
+                    null
+                }
             </Row>
         );
     }

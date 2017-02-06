@@ -104,17 +104,22 @@ class TestingPage extends Component {
                         </FormGroup>
                     </Col>
                     <Col md={3}>
+                    {
+                        this.specialityId ?
                         <FormGroup>
                             <ControlLabel>Exam</ControlLabel>
                             <FormControl
                                 componentClass="select"
                                 onChange={this.handleExamsSelect}
                                 disabled={!this.specialityId}
-                            >
-                                <option value=''></option>
-                                { this.renderExamsList() }
-                            </FormControl>
+                                >
+                                    <option value=''></option>
+                                    { this.renderExamsList() }
+                                </FormControl>
                         </FormGroup>
+                        :
+                        null
+                    }
                     </Col>
                     <Col md={3}>
                         <FormGroup>

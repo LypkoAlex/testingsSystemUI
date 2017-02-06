@@ -24,7 +24,6 @@ export default @observer class QuestionsTable extends Component {
 
     handleClickSave = async (index, id) => {
         const { exam, updateExam } = this.props.examsStore;
-        console.log(id, this.editedValue[index]);
         const subjects = exam.subjects.map(item => {
             if(item.subject._id === id) {
                 return {
@@ -44,7 +43,6 @@ export default @observer class QuestionsTable extends Component {
         const { exam, updateExam } = this.props.examsStore;
         const subjects = exam.subjects.filter(item => item.subject._id !== id);
         await updateExam(exam.id, { subjects });
-        console.log(exam.subjects);
     }
 
     renderSpecialitiesList = () => {

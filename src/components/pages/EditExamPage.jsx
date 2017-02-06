@@ -53,13 +53,14 @@ export default class ExamsPage extends Component {
             const subjectsId = exam.subjects.map(item => item.subject._id);
             return subjects.map( subject => {
                 return (
+                    !subjectsId.includes(subject.id) ?
                     <option
                         key      ={subject.id}
                         value    ={subject.id}
-                        disabled ={subjectsId.includes(subject.id)}
                     >
                         {subject.title} {subject.questions.length}
-                    </option>
+                    </option> :
+                    null
                 );
             });
         }

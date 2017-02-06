@@ -58,7 +58,6 @@ export default @observer class QuestionsTable extends Component {
         const { exams } = this.props;
         return exams
             .map((exam, i) => {
-                console.log('exam', exam);
             return (
                 <tr
                     key={exam.id}
@@ -107,7 +106,6 @@ export default @observer class QuestionsTable extends Component {
 
     render() {
         const { questions } = this.props;
-        console.log(this.editedValue);
         return (
             <Row  className='listItems'>
                 <Panel>

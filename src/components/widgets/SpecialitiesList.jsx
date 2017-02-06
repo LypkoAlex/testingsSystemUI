@@ -27,7 +27,6 @@ export default @observer class QuestionsTable extends Component {
         this.editIndex = -1;
     }
     handleClickDelete = async (id) => {
-        console.log(id);
         const { deleteSpeciality } = this.props.specialitiesStore;
         await deleteSpeciality(id);
     }

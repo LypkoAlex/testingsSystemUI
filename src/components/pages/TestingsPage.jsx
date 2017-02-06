@@ -89,6 +89,9 @@ class TestingPage extends Component {
     }
 
     render() {
+        const { exams } = this.props.examsStore;
+        const { subjects } = this.props.subjectStore;
+
         return (
             <Row>
                 <Row>
@@ -106,7 +109,7 @@ class TestingPage extends Component {
                     </Col>
                     <Col md={3}>
                     {
-                        this.specialityId ?
+                        this.specialityId && exams ?
                         <FormGroup>
                             <ControlLabel>Exam</ControlLabel>
                             <FormControl
@@ -142,7 +145,7 @@ class TestingPage extends Component {
                     </Col>
                     <Col md={3}>
                         {
-                            this.type === 'TESTING' ?
+                            this.type === 'TESTING' && subjects ?
                             <FormGroup>
                                 <ControlLabel>Subject</ControlLabel>
                                 <FormControl

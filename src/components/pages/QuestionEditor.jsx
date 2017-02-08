@@ -46,15 +46,21 @@ export default class QuestionEditor extends Component {
             if (this.questionId === 'new') {
                 set.answers = Object.values(this.answers);
             } else {
-                set.answers = question.answers.map((item, index) => {
-                    return this.answers[index] || item;
-                });
+                const editedIndex = Object.keys(this.answers)[Object.keys(this.answers).length - 1];
+                const count = editedIndex < question.answers.length ? question.answers.length : editedIndex;
+                let answers = [];
+
+                for(let i = 0; i <= count; i++) {
+                    answers.push(this.answers[i] || question.answers[i])
+                }
+
+                set.answers = answers;
             }
         }
         if (this.questionId === 'new') {
-            await createQuestion(this.subject, set)
+            createQuestion(this.subject, set)
         } else {
-            await updateQuestion(this.questionId, set)
+            updateQuestion(this.questionId, set)
         }
         this.subject = '';
         this.answers = {};

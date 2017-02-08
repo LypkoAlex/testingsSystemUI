@@ -25,7 +25,7 @@ export default @observer class QuestionsTable extends Component {
         const { questions, searchQuery, subject } = this.props;
 
         return questions
-            .filter(question => searchQuery ? question.text && question.text.includes(searchQuery) : true)
+            .filter(question => searchQuery ? question.text && question.text.toLowerCase().includes(searchQuery.toLowerCase()) : true)
             .filter(question => subject ? question.subject._id === subject : true)
             .map((question, i) => {
             return (

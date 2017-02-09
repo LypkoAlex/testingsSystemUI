@@ -17,12 +17,12 @@ export default class QuestionsPage extends Component {
     @observable searchQuery = '';
     @observable selectedSubject = '';
 
-    async componentWillMount() {
+    componentWillMount() {
         const { fetchQuestions, resetQuestion } = this.props.questionsStore;
         const { fetchSubjects  } = this.props.subjectStore;
         resetQuestion();
-        await fetchQuestions();
-        await fetchSubjects();
+        fetchQuestions();
+        fetchSubjects();
     }
 
     handleSearch = (e) => {

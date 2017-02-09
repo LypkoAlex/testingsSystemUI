@@ -4,10 +4,10 @@ import { observable }                               from 'mobx';
 import Spiner                                       from '../widgets/Spiner';
 
 import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, InputGroup, ButtonToolbar, Panel, Well, Modal } from 'react-bootstrap';
-
 @inject('testStore') @observer
 export default class TestPage extends Component {
     @observable isShowModal = false;
+    @observable answer = -1;
     static propTypes = {
         testStore : MobxTypes.observableObject
     };
@@ -28,6 +28,7 @@ export default class TestPage extends Component {
 
     handleNextQuestion = async () => {
         const { question, checkAnswer, getQuestion } = this.props.testStore;
+        this.answer = -1;
         await getQuestion(this.testId);
     }
 
@@ -114,7 +115,13 @@ export default class TestPage extends Component {
                             {question.answers ? this.renderAnswerList() : null}
                             {
                                 question.testType === 'TESTING' ?
-                                <Button className='questionForm center' onClick={this.handleNextQuestion}>NEXT</Button>
+                                <Button
+                                    className = 'questionForm center'
+                                    onClick   = {this.handleNextQuestion}
+                                    disabled  = {this.answer < 0}
+                                >
+                                    NEXT
+                                </Button>
                                 :
                                 null
                             }

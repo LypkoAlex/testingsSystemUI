@@ -3,6 +3,8 @@ import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import { browserHistory }              from 'react-router';
 import { observable }  from 'mobx';
 import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, InputGroup, ButtonToolbar } from 'react-bootstrap';
+import Spiner           from '../widgets/Spiner';
+
 
 @inject('specialitiesStore', 'examsStore', 'subjectStore', 'testStore') @observer
 
@@ -90,90 +92,98 @@ class TestingPage extends Component {
 
     render() {
         const { exams } = this.props.examsStore;
+        const { isLoading } = this.props.specialitiesStore;
         const { subjects } = this.props.subjectStore;
 
         return (
-            <Row>
+            <div className='reletiveBlock'>
+                {
+                    isLoading ?
+                        <Spiner />
+                    : null
+                }
                 <Row>
-                    <Col md={3}>
-                        <FormGroup>
-                            <ControlLabel>Speciality</ControlLabel>
-                            <FormControl
-                                componentClass="select"
-                                onChange={this.handleSpecialitySelect}
-                            >
-                                <option value=''></option>
-                                { this.renderSpecialitiesList() }
-                            </FormControl>
-                        </FormGroup>
-                    </Col>
-                    <Col md={3}>
-                    {
-                        this.specialityId && exams ?
-                        <FormGroup>
-                            <ControlLabel>Exam</ControlLabel>
-                            <FormControl
-                                componentClass="select"
-                                onChange={this.handleExamsSelect}
-                                disabled={!this.specialityId}
+                    <Row>
+                        <Col md={3}>
+                            <FormGroup>
+                                <ControlLabel>Speciality</ControlLabel>
+                                <FormControl
+                                    componentClass="select"
+                                    onChange={this.handleSpecialitySelect}
                                 >
                                     <option value=''></option>
-                                    { this.renderExamsList() }
+                                    { this.renderSpecialitiesList() }
                                 </FormControl>
-                        </FormGroup>
-                        :
-                        null
-                    }
-                    </Col>
-                    <Col md={3}>
+                            </FormGroup>
+                        </Col>
+                        <Col md={3}>
                         {
-                            this.examId ?
+                            this.specialityId && exams ?
                             <FormGroup>
-                                <ControlLabel>Type</ControlLabel>
+                                <ControlLabel>Exam</ControlLabel>
                                 <FormControl
                                     componentClass="select"
-                                    onChange={this.handleTypeSelect}
-                                    disabled={!this.examId}
+                                    onChange={this.handleExamsSelect}
+                                    disabled={!this.specialityId}
                                     >
                                         <option value=''></option>
-                                        <option value='EXAM'>EXAM</option>
-                                        <option value='TESTING'>TESTING</option>
+                                        { this.renderExamsList() }
                                     </FormControl>
-                                </FormGroup> :
-                                null
-                        }
-                    </Col>
-                    <Col md={3}>
-                        {
-                            this.type === 'TESTING' && subjects ?
-                            <FormGroup>
-                                <ControlLabel>Subject</ControlLabel>
-                                <FormControl
-                                    componentClass="select"
-                                    onChange={this.handleSubjectSelect}
-                                    disabled={this.type !== 'TESTING'}
-                                    >
-                                        <option value=''></option>
-                                        { this.renderSubjectsList() }
-                                    </FormControl>
-                            </FormGroup> :
+                            </FormGroup>
+                            :
                             null
                         }
-                    </Col>
+                        </Col>
+                        <Col md={3}>
+                            {
+                                this.examId ?
+                                <FormGroup>
+                                    <ControlLabel>Type</ControlLabel>
+                                    <FormControl
+                                        componentClass="select"
+                                        onChange={this.handleTypeSelect}
+                                        disabled={!this.examId}
+                                        >
+                                            <option value=''></option>
+                                            <option value='EXAM'>EXAM</option>
+                                            <option value='TESTING'>TESTING</option>
+                                        </FormControl>
+                                    </FormGroup> :
+                                    null
+                            }
+                        </Col>
+                        <Col md={3}>
+                            {
+                                this.type === 'TESTING' && subjects ?
+                                <FormGroup>
+                                    <ControlLabel>Subject</ControlLabel>
+                                    <FormControl
+                                        componentClass="select"
+                                        onChange={this.handleSubjectSelect}
+                                        disabled={this.type !== 'TESTING'}
+                                        >
+                                            <option value=''></option>
+                                            { this.renderSubjectsList() }
+                                        </FormControl>
+                                </FormGroup> :
+                                null
+                            }
+                        </Col>
+                    </Row>
+                    {
+                        this.examId && this.specialityId && (this.type === 'EXAM' || this.subjectId) ?
+                        <Button
+                            bsStyle="primary"
+                            className='col-centered'
+                            onClick={this.handleStart}
+                            disabled={!(this.examId && this.specialityId && (this.type === 'EXAM' || this.subjectId))}
+                            >
+                                Start
+                        </Button> :
+                        null
+                    }
                 </Row>
-                {
-                    this.examId && this.specialityId && (this.type === 'EXAM' || this.subjectId) ?
-                    <Button
-                        bsStyle="primary"
-                        className='col-centered'
-                        onClick={this.handleStart}
-                        disabled={!(this.examId && this.specialityId && (this.type === 'EXAM' || this.subjectId))}
-                        >
-                            Start
-                    </Button> :
-                    null
-                }
-            </Row>
+            </div>
         );
     }
 }

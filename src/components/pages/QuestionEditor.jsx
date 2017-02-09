@@ -84,6 +84,7 @@ export default class QuestionEditor extends Component {
 
     handleChangeAnswer = (index, e) => {
         this.answers[index] = e.target.value;
+        this.forceUpdate();
     }
 
     renderSubjectsList = () => {
@@ -132,6 +133,7 @@ export default class QuestionEditor extends Component {
                                 value          ={i}
                                 onChange       ={this.handleChangeAnswerIndex}
                                 defaultChecked ={ (question && question.answers) && question.answerIndex === i}
+                                disabled = {!(this.answers[i] || ((question && question.answers) && question.answers[i]))}
                             />
                         </InputGroup.Addon>
                     </InputGroup>

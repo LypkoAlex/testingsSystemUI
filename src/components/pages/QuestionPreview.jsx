@@ -24,7 +24,7 @@ export default class QuestionEditor extends Component {
     async componentWillMount() {
         const { fetchSubjects } = this.props.subjectStore;
         const { fetchQuestions, fetchQuestion, question} = this.props.questionsStore;
-        this.questionId = this.props.location.pathname.replace('/admin/questions/', '');
+        this.questionId = this.props.location.pathname.replace('/questions/', '');
         await fetchSubjects();
         await fetchQuestion(this.questionId);
         this.key = uuid.v4();
@@ -124,6 +124,7 @@ export default class QuestionEditor extends Component {
                             defaultValue={question && question.answers ? question.answers[i] : ''}
                             value={this.answers[i]}
                             placeholder={'Enter possible answer'}
+                            disabled
                         />
                         <InputGroup.Addon>
                             <input
@@ -133,7 +134,7 @@ export default class QuestionEditor extends Component {
                                 value          ={i}
                                 onChange       ={this.handleChangeAnswerIndex}
                                 defaultChecked ={ (question && question.answers) && question.answerIndex === i}
-                                disabled = {!(this.answers[i] || ((question && question.answers) && question.answers[i]))}
+                                disabled
                             />
                         </InputGroup.Addon>
                     </InputGroup>
@@ -149,16 +150,6 @@ export default class QuestionEditor extends Component {
             <Row>
                 { (question && question.answers) || this.questionId === 'new' ?
                     <Row>
-                        <ButtonToolbar className='col-centered'>
-                            <Button
-                                disabled={ this.questionId === 'new' ? !(this.subject && this.answers && this.text && this.answerIndex) : false }
-                                onClick={this.handleClickSave.bind(this, false)}>Save</Button>
-                            <Button
-                                onClick={this.handleClickSave.bind(this, true)}
-                                disabled={ this.questionId === 'new' ? !(this.subject && this.answers && this.text && this.answerIndex) : false }
-                            >Save and New</Button>
-                            <Link className='btn btn-default pull-right' to='/admin/questions/'>Close</Link>
-                        </ButtonToolbar>
                         <Col md={6} mdOffset={3} className='questionForm'>
                             <Panel>
                                 <FormControl
@@ -166,11 +157,13 @@ export default class QuestionEditor extends Component {
                                     componentClass='select'
                                     defaultValue={question && question.subject ? question.subject : ''}
                                     value={this.subject}
+                                    disabled
                                 >
                                     <option value=''>Select subject</option>
                                     {this.renderSubjectsList()}
                                 </FormControl>
                                 <FormControl
+                                    disabled
                                     componentClass="textarea"
                                     placeholder="textarea"
                                     onChange={this.handleChangeText} name='text'
@@ -178,7 +171,7 @@ export default class QuestionEditor extends Component {
                                     value={this.text}
                                 />
                                 {this.renderAnswersList(6)}
-                                <input type="file" accept="image/jpeg,image/png,image/gif" onChange={this.previewFile}/> <br/>
+                                <input disabled type="file" accept="image/jpeg,image/png,image/gif" onChange={this.previewFile}/> <br/>
                                 {this.img || ( question && question.img ) ?
                                     <img
                                         src={this.img || question.img}

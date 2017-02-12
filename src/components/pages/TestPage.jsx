@@ -50,6 +50,7 @@ export default class TestPage extends Component {
         return (
             question.answers.map((item, index) => {
                 return (
+                    item ?
                     <Col md={12}
                         key = {index+question.id}
                         className = {
@@ -73,7 +74,8 @@ export default class TestPage extends Component {
                                 { item }
                             </label>
                         </Col>
-                    </Col>
+                    </Col> :
+                    null
                 );
             })
         );
@@ -99,7 +101,7 @@ export default class TestPage extends Component {
                             </Panel>
                         </Col>
                         :
-                        <Col md={6} mdOffset={3}>
+                        <Col md={6} mdOffset={3} className='questionFont'>
                             <Panel>
                                 {question.text}
                                 {question.img ?
@@ -120,7 +122,7 @@ export default class TestPage extends Component {
                                     onClick   = {this.handleNextQuestion}
                                     disabled  = {this.answer < 0}
                                 >
-                                    NEXT
+                                    NEXT {question.count - 1}
                                 </Button>
                                 :
                                 null

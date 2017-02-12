@@ -19,6 +19,7 @@ export default class MainLayout extends Component {
 
         return (
             <div className='container'>
+                <img className='mainLogo' src='/img/3-layers.png'></img>
                 <NavigationBar/>
                 <Grid>
                     {children}

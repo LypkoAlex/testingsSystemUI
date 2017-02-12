@@ -13,14 +13,16 @@ class NavigationBar extends React.Component {
         return (
             <Navbar>
                 <Navbar.Header>
-                    <Navbar.Brand>
-                        <Link to='/'>TestSystem</Link>
+                    <Navbar.Brand className='logoImg'>
+                        <Link to='/'><img src='/img/2-layers.png' /></Link>
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Nav>
                     <NavItem to='/test'>Testing</NavItem>
-                    <NavItem to='/feedback'>Feedback</NavItem>
+                    <NavItem to='/search'>Search</NavItem>
                     <NavItem to='/restore'>Restore</NavItem>
+                    <NavItem to='/feedback'>Feedback</NavItem>
+                    <NavItem to='/info'>Info</NavItem>
                 </Nav>
             </Navbar>
         )

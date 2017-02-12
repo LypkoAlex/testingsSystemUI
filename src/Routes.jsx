@@ -14,6 +14,9 @@ import ExamsPage      from './components/pages/ExamsPage'
 import EditExamPage   from './components/pages/EditExamPage'
 import QuestionsPage  from './components/pages/QuestionsPage'
 import QuestionEditor from './components/pages/QuestionEditor'
+import SearchPage     from './components/pages/SearchPage'
+import InfoPage       from './components/pages/InfoPage'
+import QuestionPreview from './components/pages/QuestionPreview'
 
 export default () => {
     return (
@@ -27,6 +30,9 @@ export default () => {
                 <Route path='/test/:testId' component={TestPage} />
                 <Route path='/feedback' component={Feedback} />
                 <Route path='/restore' component={Restore} />
+                <Route path='/questions/:id' component={QuestionPreview} />
+                <Route path='/search' component={SearchPage} />
+                <Route path='/info' component={InfoPage} />
             </Route>
             <Route path='/admin' component={AdminLayout} >
                 <Route path='/admin/questions'      component={QuestionsPage} />

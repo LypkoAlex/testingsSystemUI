@@ -67,3 +67,17 @@
 .QuestionText {
     width: 70%;
 }
+
+.logoImg {
+    padding-top: 0px !important;
+}
+
+.mainLogo {
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.questionFont {
+    font-size: 16px;
+}

@@ -50,7 +50,7 @@ class QuestionsStore {
     @action updateQuestion = async(id, data) => {
         try {
             await patch(`/questions/${id}`, data);
-            await this.fetchQuestion(id);
+            // await this.fetchQuestion(id);
         } catch (error) {
             console.log(error);
         }

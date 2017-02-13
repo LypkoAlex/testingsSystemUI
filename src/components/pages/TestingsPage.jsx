@@ -145,8 +145,8 @@ class TestingPage extends Component {
                                         disabled={!this.examId}
                                         >
                                             <option value=''></option>
-                                            <option value='EXAM'>EXAM</option>
-                                            <option value='TESTING'>TESTING</option>
+                                            <option value='EXAM'>Exam mode</option>
+                                            <option value='TESTING'>Study mode</option>
                                         </FormControl>
                                     </FormGroup> :
                                     null

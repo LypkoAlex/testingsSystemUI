@@ -91,7 +91,6 @@ export default class TestPage extends Component {
                     : null
                 }
                 <Row>
-                    <Button onClick={this.handleSaveTest}>Save</Button>
                     {
                         question.code ?
                         <Col md={6} mdOffset={3}>
@@ -101,8 +100,9 @@ export default class TestPage extends Component {
                             </Panel>
                         </Col>
                         :
-                        <Col md={6} mdOffset={3} className='questionFont'>
+                        <Col md={12} className='questionFont'>
                             <Panel>
+                                <Button className='saveBtn' onClick={this.handleSaveTest}>Save</Button>
                                 {question.text}
                                 {question.img ?
                                     <img

@@ -76,13 +76,13 @@ export default class QuestionsPage extends Component {
                         </Col>
                     </Row>
                         {
-                            questions
+                            questions && this.searchQuery
                             ? <QuestionsTable
                                 questions   = {questions}
                                 searchQuery = {this.searchQuery}
                                 subject     = {this.selectedSubject}
                             />
-                            : 'Questions'
+                            : ''
                         }
                 </Row>
             </div>

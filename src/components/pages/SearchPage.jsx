@@ -76,7 +76,7 @@ export default class QuestionsPage extends Component {
                         </Col>
                     </Row>
                         {
-                            questions && this.searchQuery
+                            questions && (this.searchQuery || this.selectedSubject)
                             ? <QuestionsTable
                                 questions   = {questions}
                                 searchQuery = {this.searchQuery}

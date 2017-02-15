@@ -85,3 +85,24 @@
 .saveBtn {
     float: right;
 }
+
+.modalTitle {
+    font-weight: 400;
+    line-height: 1;
+    color: #777;
+    font-size: 22px;
+    margin-left: 20px;
+}
+
+.titleHeader {
+    margin: 0 auto;
+    display: table;
+}
+
+.modalBody {
+    font-weight: 400;
+    line-height: 1;
+    color: #777;
+    font-size: 18px;
+    margin-left: 20px;
+}

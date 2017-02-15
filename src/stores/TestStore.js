@@ -3,12 +3,18 @@ import { get, post, patch, del } from '../api.js';
 
 class TestStore {
     @observable currentSubject = undefined;
-    @observable isLoading = true;
+    @observable isLoading = false;
+    @observable test = false;
     @observable correct = -1;
     @observable question = {};
     @action createTest = async (examId, data) => {
         try {
-            return await post(`/exams/${examId}/test`, data);
+            this.isLoading = true;
+            const test = await post(`/exams/${examId}/test`, data);
+            runInAction('Check answer', () => {
+                this.test = test;
+                this.isLoading = false;
+            });
         } catch (error) {
             console.log(error);
         }
@@ -16,7 +22,6 @@ class TestStore {
 
     @action getQuestion = async (testId) => {
         try {
-            this.isLoading = true;
             const question = await get(`/tests/${testId}/nextQuestion`);
             runInAction('Get question', () => {
                 this.correct = -1;

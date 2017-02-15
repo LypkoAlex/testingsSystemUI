@@ -1,9 +1,10 @@
 import React, { Component, PropTypes }          from 'react';
 import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
-import { browserHistory }              from 'react-router';
+import { Link }              from 'react-router';
 import { observable }  from 'mobx';
-import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, InputGroup, ButtonToolbar } from 'react-bootstrap';
+import {  Row, Modal, Button, FormControl, ControlLabel, FormGroup, Col, InputGroup, ButtonToolbar } from 'react-bootstrap';
 import Spiner           from '../widgets/Spiner';
+import { find } from 'lodash';
 
 
 @inject('specialitiesStore', 'examsStore', 'subjectStore', 'testStore') @observer
@@ -12,7 +13,10 @@ class TestingPage extends Component {
     @observable examId;
     @observable type;
     @observable specialityId;
+    @observable questionCount;
     @observable subjectId;
+    @observable isShowModal = false;
+
     static propTypes = {
         specialitiesStore: MobxTypes.observableObject,
         subjectsStore    : MobxTypes.observableObject,
@@ -24,14 +28,21 @@ class TestingPage extends Component {
         await specialitiesStore.fetchSpecialities();
     }
 
+    modalAction = () => {
+        this.isShowModal = !this.isShowModal;
+    }
+
     handleStart = async () => {
         const { testStore } = this.props;
-        const test = await testStore.createTest(this.examId, {
+        await testStore.createTest(this.examId, {
             speciality : this.specialityId,
             subject    : this.subjectId,
             type       : this.type
         });
-        browserHistory.push(`/test/${test.id}`)
+        console.log('test', testStore.test);
+        this.questionCount = testStore.test.questions.length;
+        this.modalAction();
+        // browserHistory.push(`/test/${test.id}`)
     }
 
     handleSpecialitySelect = async (e) => {
@@ -92,17 +103,44 @@ class TestingPage extends Component {
 
     render() {
         const { exams } = this.props.examsStore;
-        const { isLoading } = this.props.specialitiesStore;
+        const { isLoading, specialities } = this.props.specialitiesStore;
         const { subjects } = this.props.subjectStore;
-
+        const { test } = this.props.testStore;
+        const testLoading = this.props.testStore.isLoading;
         return (
             <div className='reletiveBlock'>
                 {
-                    isLoading ?
+                    isLoading || testLoading ?
                         <Spiner />
                     : null
                 }
                 <Row>
+                    {
+                        this.isShowModal ?
+                        <Modal show={this.isShowModal} onHide={this.modalAction}>
+                            <Modal.Header closeButton>
+                                <div className='titleHeader'>
+                                    <span className='modalTitle'>
+                                        {find(specialities, { id : this.specialityId }).title}
+                                    </span>
+                                    <span className='modalTitle'>
+                                        { this.subjectId ?
+                                            find(subjects, { id : this.subjectId }).title
+                                            :
+                                            find(exams, { id : this.examId }).title
+                                        }
+                                    </span>
+                                </div>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <p className='alignCenter modalBody'>Question in topic : {this.questionCount}</p>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Link className='btn btn-default' href={'/test/' + test.id}>Let's go</Link>
+                            </Modal.Footer>
+                        </Modal>
+                        : null
+                    }
                     <Row>
                         <Col md={3}>
                             <FormGroup>

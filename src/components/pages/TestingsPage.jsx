@@ -133,7 +133,9 @@ class TestingPage extends Component {
                                 </div>
                             </Modal.Header>
                             <Modal.Body>
-                                <p className='alignCenter modalBody'>Question in topic : {this.questionCount}</p>
+                                <p className='alignCenter modalBody'>Question in topic : {this.questionCount}<br/><br/>
+                                اللَّهُمَّ لا سَهْلَ إِلاَّ ما جَعَلْتَهُ سَهْلاً، وأنْتَ تَجْعَلُ الحَزْنَ إذَا شِئْتَ سَهْلاً
+                                </p>
                             </Modal.Body>
                             <Modal.Footer>
                                 <Link className='btn btn-default' href={'/test/' + test.id}>Let's go</Link>

@@ -13,7 +13,7 @@ export default class TestPage extends Component {
     };
     async componentWillMount() {
         const { testStore } = this.props;
-        this.testId = this.props.location.pathname.replace('/test/', '');
+        this.testId = this.props.location.pathname.replace('/test/', '').replace('/', '');
         await testStore.getQuestion(this.testId);
         this.selectedAnswer = [];
     }

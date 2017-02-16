@@ -3,8 +3,9 @@ import { observer, inject, propTypes as MobxTypes } from 'mobx-react';
 import {  Row, Button, FormControl, ControlLabel, FormGroup, Col, Table, ButtonToolbar, Panel } from 'react-bootstrap';
 import { observable } from 'mobx';
 import { browserHistory } from 'react-router';
+import { find } from 'lodash';
 
-@inject('specialitiesStore', 'questionsStore')
+@inject('specialitiesStore', 'questionsStore', 'subjectStore')
 export default @observer class QuestionsTable extends Component {
     static propTypes = {
         questionsStore: MobxTypes.observableObject,
@@ -23,11 +24,12 @@ export default @observer class QuestionsTable extends Component {
 
     renderQuestionsList() {
         const { questions, searchQuery, subject } = this.props;
-
+        const { subjects } = this.props.subjectStore;
         return questions
             .filter(question => searchQuery ? question.text && question.text.toLowerCase().includes(searchQuery.toLowerCase()) : true)
             .filter(question => subject ? question.subject._id === subject : true)
             .map((question, i) => {
+                const sub = find(subjects, { id : question.subject});
             return (
                 <tr
                     key={i}
@@ -37,7 +39,7 @@ export default @observer class QuestionsTable extends Component {
                         {question.text}
                     </td>
                     <td>
-                        {question.subject.title}
+                        {sub ? sub.title : 'N/A'}
                     </td>
                     <td>
                         <ButtonToolbar>
